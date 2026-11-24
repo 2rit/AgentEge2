@@ -1,0 +1,2315 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ดาวน์โหลด Personal_AI_Agent.mcaddon — Minecraft Bedrock Add-on</title>
+  <style>
+    :root {
+      --bg: #121514;
+      --surface: #1b201e;
+      --surface-2: #242b28;
+      --border: #323c37;
+      --ink: #f1f5f3;
+      --muted: #9aa8a1;
+      --brand: #38e0a8;
+      --brand-hover: #2bc893;
+      --brand-ink: #0c1f18;
+      --accent: #76f2c2;
+      --warn-bg: rgba(245, 166, 35, 0.12);
+      --warn-border: rgba(245, 166, 35, 0.38);
+      --warn-ink: #ffd180;
+      --radius: 16px;
+      --shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Thai", Helvetica, Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background: radial-gradient(circle at 50% 0%, #1d2a25 0%, var(--bg) 65%);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: var(--space-6) var(--space-4) 48px;
+    }
+
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: var(--space-6);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+      align-items: center;
+    }
+
+    @media (min-width: 720px) {
+      .hero-card {
+        grid-template-columns: 200px 1fr;
+        padding: var(--space-8);
+      }
+    }
+
+    .preview-box {
+      background: #141816;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+    }
+
+    #robot-preview-canvas {
+      width: 136px;
+      height: 136px;
+      image-rendering: pixelated;
+      border-radius: 10px;
+    }
+
+    .preview-caption {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(56, 224, 168, 0.14);
+      color: var(--accent);
+      border: 1px solid rgba(118, 242, 194, 0.3);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 26px;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .subtitle {
+      margin: 0 0 var(--space-4);
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      align-items: center;
+    }
+
+    .btn {
+      font: inherit;
+      font-weight: 700;
+      font-size: 16px;
+      padding: 14px 24px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: transform 0.12s ease, background 0.15s ease, border-color 0.15s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .btn-primary {
+      background: var(--brand);
+      color: var(--brand-ink);
+      box-shadow: 0 6px 20px rgba(56, 224, 168, 0.28);
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-hover);
+    }
+
+    .btn-secondary {
+      background: var(--surface-2);
+      color: var(--ink);
+      border-color: var(--border);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 14px 18px;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+    }
+
+    .status-line {
+      margin-top: var(--space-3);
+      font-size: 14px;
+      color: var(--accent);
+      min-height: 22px;
+    }
+
+    .sandbox-tip {
+      margin-top: var(--space-4);
+      background: var(--warn-bg);
+      border: 1px solid var(--warn-border);
+      color: var(--warn-ink);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 13.5px;
+    }
+
+    .grid-2 {
+      margin-top: var(--space-6);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: var(--space-6);
+    }
+
+    .card h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      color: var(--ink);
+    }
+
+    .step-list {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--ink);
+      font-size: 14.5px;
+    }
+
+    .step-list li {
+      margin-bottom: 8px;
+    }
+
+    .file-summary {
+      margin-top: var(--space-6);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+    }
+
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--surface-2);
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .num {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    code {
+      background: var(--surface-2);
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero-card">
+      <div class="preview-box">
+        <canvas id="robot-preview-canvas" width="64" height="64"></canvas>
+        <div class="preview-caption">AI Robot Companion<br>(Stone + Mint Eyes)</div>
+      </div>
+
+      <div>
+        <div class="badge-row">
+          <span class="badge">Minecraft Bedrock 1.21.50+</span>
+          <span class="badge">Behavior + Resource Pack รวมไฟล์เดียว</span>
+          <span class="badge">iOS / iPad / Android / Windows</span>
+        </div>
+        <h1>Personal_AI_Agent.mcaddon</h1>
+        <p class="subtitle">
+          แพ็กเกจหุ่นยนต์คู่หู AI สำหรับโหมดเอาชีวิตรอด (Survival) พร้อมโมเดล 3D 24 ชิ้นกระดูก, อนิเมชันสมูท 15 ท่าทาง, สมองกลจัดลำดับความสำคัญ 5 ชั้น, ระบบพลังงาน/แท่นชาร์จ, ชิปอัปเกรด 7 สาย และรีโมทเมนูภาษาไทย
+        </p>
+
+        <div class="btn-group">
+          <button id="btn-download-mcaddon" class="btn btn-primary" type="button">
+            <span>⬇️ ดาวน์โหลด Personal_AI_Agent.mcaddon</span>
+          </button>
+          <button id="btn-download-zip" class="btn btn-secondary" type="button">
+            <span>📦 ดาวน์โหลด Source (.zip)</span>
+          </button>
+        </div>
+
+        <div id="build-status" class="status-line">กำลังประกอบแพ็กเกจไฟล์เดียวในหน่วยความจำ...</div>
+
+        <div class="sandbox-tip">
+          💡 <strong>วิธีรับไฟล์กรณีปุ่มดาวน์โหลดถูกบล็อกในหน้าพรีวิว:</strong> กดไอคอน <strong>Download (ลูกศรชี้ลง)</strong> ที่แถบเครื่องมือมุมขวาบนของกรอบหน้าต่างนี้เพื่อบันทึกหน้าเว็บเป็นไฟล์ <code>index.html</code> ลงเครื่อง จากนั้นเปิดไฟล์ <code>index.html</code> ในเบราว์เซอร์ (Safari / Chrome / Edge) แล้วกดปุ่มสีเขียวด้านบน จะได้ไฟล์ <code>Personal_AI_Agent.mcaddon</code> ทันที 100% ครับ
+        </div>
+      </div>
+    </section>
+
+    <div class="grid-2">
+      <section class="card">
+        <h2>📲 วิธีติดตั้งเข้าเกม (ไฟล์เดียวจบ)</h2>
+        <ol class="step-list">
+          <li>กดรับไฟล์ <code>Personal_AI_Agent.mcaddon</code> แล้วแตะเปิดไฟล์ด้วยแอป <strong>Minecraft</strong></li>
+          <li>ตัวเกมจะนำเข้าทั้ง <strong>Personal AI Agent [BP]</strong> และ <strong>Personal AI Agent [RP]</strong> ให้อัตโนมัติ</li>
+          <li>ไปที่ตั้งค่าโลก (Create New World หรือ Edit World) → หมวด <strong>Behavior Packs</strong> → กด Activate (Resource Pack จะเปิดพ่วงให้อัตโนมัติ ไม่ต้องเปิดโหมดทดลอง)</li>
+        </ol>
+      </section>
+
+      <section class="card">
+        <h2>🛠️ วิธีสร้างและสั่งงานหุ่นยนต์ใน Survival</h2>
+        <ol class="step-list">
+          <li>คราฟต์ <code>AI Core</code> + <code>Standard Battery Cell</code> ที่โต๊ะคราฟต์</li>
+          <li>คราฟต์ <code>AI Robot Assembly Unit</code> แล้วกดวางลงพื้น หุ่นยนต์จะเกิดพร้อมมอบ <code>Agent Remote Control</code> ให้ทันที</li>
+          <li>ถือรีโมทแตะค้างหน้าจอ / คลิกขวา เพื่อเปิดเมนูสั่งงาน <code>FOLLOW / ASSIST / STAY / WORK / DEFEND / CHARGE</code></li>
+          <li><strong>ย่อตัว (Sneak) + ถือรีโมทแตะแท่นชาร์จ หรือ Chest</strong> เพื่อผูกจุดชาร์จไฟและกล่องฝากของอัตโนมัติ</li>
+        </ol>
+      </section>
+    </div>
+
+    <section class="card file-summary">
+      <h2>📋 รายการไฟล์ที่บรรจุอยู่ในแพ็กเกจ Personal_AI_Agent.mcaddon</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>หมวดหมู่</th>
+              <th>รายละเอียดไฟล์ภายในแพ็กเกจ</th>
+              <th class="num">จำนวนไฟล์</th>
+            </tr>
+          </thead>
+          <tbody id="manifest-summary-body">
+            <tr><td colspan="3">กำลังตรวจสอบรายการไฟล์...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  (function() {
+    "use strict";
+
+    // =========================================================================
+    // PURE JS ZIP ARCHIVER (CRC32 + STORE mode — 100% standard ZIP / .mcaddon)
+    // =========================================================================
+    const CRC_TABLE = (function() {
+      const t = new Uint32Array(256);
+      for (let i = 0; i < 256; i++) {
+        let c = i;
+        for (let k = 0; k < 8; k++) {
+          c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+        }
+        t[i] = c >>> 0;
+      }
+      return t;
+    })();
+
+    function crc32(bytes) {
+      let crc = 0xFFFFFFFF;
+      for (let i = 0; i < bytes.length; i++) {
+        crc = CRC_TABLE[(crc ^ bytes[i]) & 0xFF] ^ (crc >>> 8);
+      }
+      return (crc ^ 0xFFFFFFFF) >>> 0;
+    }
+
+    function buildZipArchive(entries) {
+      const encoder = new TextEncoder();
+      const localParts = [];
+      const centralParts = [];
+      let offset = 0;
+
+      for (const entry of entries) {
+        const nameBytes = encoder.encode(entry.path);
+        const data = entry.data instanceof Uint8Array ? entry.data : encoder.encode(entry.data);
+        const crc = crc32(data);
+        const size = data.length;
+
+        // Local file header (30 bytes + name)
+        const lh = new Uint8Array(30 + nameBytes.length);
+        const lhv = new DataView(lh.buffer);
+        lhv.setUint32(0, 0x04034b50, true);
+        lhv.setUint16(4, 20, true);
+        lhv.setUint16(6, 0x0800, true); // UTF-8 filename flag
+        lhv.setUint16(8, 0, true);      // STORE method
+        lhv.setUint16(10, 0x4821, true);
+        lhv.setUint16(12, 0x5894, true);
+        lhv.setUint32(14, crc, true);
+        lhv.setUint32(18, size, true);
+        lhv.setUint32(22, size, true);
+        lhv.setUint16(26, nameBytes.length, true);
+        lhv.setUint16(28, 0, true);
+        lh.set(nameBytes, 30);
+
+        localParts.push(lh, data);
+
+        // Central directory header (46 bytes + name)
+        const ch = new Uint8Array(46 + nameBytes.length);
+        const chv = new DataView(ch.buffer);
+        chv.setUint32(0, 0x02014b50, true);
+        chv.setUint16(4, 20, true);
+        chv.setUint16(6, 20, true);
+        chv.setUint16(8, 0x0800, true);
+        chv.setUint16(10, 0, true);
+        chv.setUint16(12, 0x4821, true);
+        chv.setUint16(14, 0x5894, true);
+        chv.setUint32(16, crc, true);
+        chv.setUint32(20, size, true);
+        chv.setUint32(24, size, true);
+        chv.setUint16(28, nameBytes.length, true);
+        chv.setUint16(30, 0, true);
+        chv.setUint16(32, 0, true);
+        chv.setUint16(34, 0, true);
+        chv.setUint16(36, 0, true);
+        chv.setUint32(38, 0, true);
+        chv.setUint32(42, offset, true);
+        ch.set(nameBytes, 46);
+
+        centralParts.push(ch);
+        offset += lh.length + size;
+      }
+
+      let centralSize = 0;
+      for (const c of centralParts) centralSize += c.length;
+
+      const eocd = new Uint8Array(22);
+      const ev = new DataView(eocd.buffer);
+      ev.setUint32(0, 0x06054b50, true);
+      ev.setUint16(4, 0, true);
+      ev.setUint16(6, 0, true);
+      ev.setUint16(8, entries.length, true);
+      ev.setUint16(10, entries.length, true);
+      ev.setUint32(12, centralSize, true);
+      ev.setUint32(16, offset, true);
+      ev.setUint16(20, 0, true);
+
+      return new Blob([...localParts, ...centralParts, eocd], { type: "application/octet-stream" });
+    }
+
+    // =========================================================================
+    // PIXEL ART PNG & WAV GENERATORS
+    // =========================================================================
+    let rngSeed = 1337;
+    function nextRand(max) {
+      rngSeed = (rngSeed * 1664525 + 1013904223) >>> 0;
+      return rngSeed % max;
+    }
+
+    function canvasToPngBytes(canvas) {
+      const dataUrl = canvas.toDataURL("image/png");
+      const bin = atob(dataUrl.split(",")[1]);
+      const arr = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+      return arr;
+    }
+
+    function createPixelBuffer(w, h) {
+      return { w, h, data: new Uint8ClampedArray(w * h * 4) };
+    }
+
+    function fillRect(buf, x, y, w, h, rgba) {
+      const x0 = Math.max(0, x), y0 = Math.max(0, y);
+      const x1 = Math.min(buf.w, x + w), y1 = Math.min(buf.h, y + h);
+      for (let py = y0; py < y1; py++) {
+        for (let px = x0; px < x1; px++) {
+          const idx = (py * buf.w + px) * 4;
+          buf.data[idx] = rgba[0];
+          buf.data[idx + 1] = rgba[1];
+          buf.data[idx + 2] = rgba[2];
+          buf.data[idx + 3] = rgba[3];
+        }
+      }
+    }
+
+    function stoneBrickFill(buf, x, y, w, h, baseRgb, shade) {
+      const offsets = [[0,0,0],[16,14,11],[-14,-13,-11],[24,21,16],[-22,-20,-17],[7,6,4]];
+      for (let py = y; py < y + h; py++) {
+        for (let px = x; px < x + w; px++) {
+          if (px < 0 || py < 0 || px >= buf.w || py >= buf.h) continue;
+          const o = offsets[(px * 7 + py * 13 + nextRand(6)) % offsets.length];
+          const mortar = (py % 2 === 1 && (px + py) % 4 === 0) ? -10 : 0;
+          const idx = (py * buf.w + px) * 4;
+          buf.data[idx]     = Math.max(20, Math.min(245, baseRgb[0] + o[0] + shade + mortar));
+          buf.data[idx + 1] = Math.max(20, Math.min(245, baseRgb[1] + o[1] + shade + mortar));
+          buf.data[idx + 2] = Math.max(20, Math.min(245, baseRgb[2] + o[2] + shade + mortar));
+          buf.data[idx + 3] = 255;
+        }
+      }
+    }
+
+    function paintBox(buf, u, v, dx, dy, dz, baseRgb) {
+      stoneBrickFill(buf, u + dz, v, dx, dz, baseRgb, 16);
+      stoneBrickFill(buf, u + dz + dx, v, dx, dz, baseRgb, -24);
+      stoneBrickFill(buf, u, v + dz, dz, dy, baseRgb, -10);
+      stoneBrickFill(buf, u + dz, v + dz, dx, dy, baseRgb, 4);
+      stoneBrickFill(buf, u + dz + dx, v + dz, dz, dy, baseRgb, -8);
+      stoneBrickFill(buf, u + 2 * dz + dx, v + dz, dx, dy, baseRgb, -6);
+    }
+
+    function bufferToPngBytes(buf) {
+      const c = document.createElement("canvas");
+      c.width = buf.w;
+      c.height = buf.h;
+      const ctx = c.getContext("2d");
+      const imgData = new ImageData(buf.data, buf.w, buf.h);
+      ctx.putImageData(imgData, 0, 0);
+      return canvasToPngBytes(c);
+    }
+
+    function buildRobotTexture(mode) {
+      const b = createPixelBuffer(128, 128);
+      const STONE = [114, 109, 95];
+      const STONE_DARK = [86, 82, 72];
+      const VISOR = [34, 37, 34, 255];
+
+      paintBox(b, 0, 0, 10, 8, 9, STONE);
+      fillRect(b, 10, 11, 8, 5, VISOR);
+      fillRect(b, 10, 11, 8, 1, [24, 27, 25, 255]);
+
+      let eyeCol = [118, 242, 194, 255], hiCol = [205, 255, 235, 255];
+      if (mode === "low_battery") { eyeCol = [255, 115, 42, 255]; hiCol = [255, 190, 120, 255]; }
+      else if (mode === "charging") { eyeCol = [90, 255, 165, 255]; hiCol = [210, 255, 235, 255]; }
+      else if (mode === "happy") { eyeCol = [130, 255, 208, 255]; hiCol = [220, 255, 240, 255]; }
+      else if (mode === "sleep") { eyeCol = [65, 148, 120, 255]; hiCol = [90, 175, 145, 255]; }
+
+      paintBox(b, 70, 0, 2, 3, 1, [118, 242, 194]);
+      fillRect(b, 71, 1, 2, 3, eyeCol);
+      fillRect(b, 71, 1, 1, 1, hiCol);
+      paintBox(b, 80, 0, 2, 3, 1, [118, 242, 194]);
+      fillRect(b, 81, 1, 2, 3, eyeCol);
+      fillRect(b, 81, 1, 1, 1, hiCol);
+
+      if (mode === "happy") {
+        fillRect(b, 72, 3, 1, 1, VISOR);
+        fillRect(b, 81, 3, 1, 1, VISOR);
+      } else if (mode === "sleep") {
+        fillRect(b, 71, 1, 2, 2, VISOR);
+        fillRect(b, 81, 1, 2, 2, VISOR);
+      } else if (mode === "low_battery") {
+        fillRect(b, 71, 1, 2, 1, VISOR);
+        fillRect(b, 81, 1, 2, 1, VISOR);
+      }
+
+      paintBox(b, 40, 0, 1, 4, 4, STONE_DARK);
+      fillRect(b, 41, 5, 2, 2, [34, 36, 33, 255]);
+      fillRect(b, 46, 5, 2, 2, [34, 36, 33, 255]);
+
+      paintBox(b, 0, 20, 8, 7, 6, STONE);
+      fillRect(b, 8, 28, 4, 2, [70, 68, 58, 255]);
+      if (mode === "charging") fillRect(b, 9, 28, 2, 2, [95, 255, 170, 255]);
+      else if (mode === "low_battery") fillRect(b, 9, 28, 2, 1, [255, 110, 40, 255]);
+
+      paintBox(b, 32, 20, 3, 3, 3, STONE);
+      paintBox(b, 46, 20, 3, 3, 3, STONE);
+      paintBox(b, 60, 20, 1, 2, 3, STONE_DARK);
+      paintBox(b, 32, 28, 3, 3, 3, STONE);
+      paintBox(b, 46, 28, 3, 3, 3, STONE);
+      paintBox(b, 60, 28, 1, 2, 3, STONE_DARK);
+
+      paintBox(b, 0, 36, 3, 4, 4, STONE_DARK);
+      paintBox(b, 16, 36, 3, 2, 1, STONE);
+      paintBox(b, 0, 46, 3, 4, 4, STONE_DARK);
+      paintBox(b, 16, 46, 3, 2, 1, STONE);
+
+      paintBox(b, 0, 56, 6, 6, 3, [132, 86, 48]);
+      fillRect(b, 3, 61, 6, 1, [54, 36, 22, 255]);
+      fillRect(b, 5, 61, 2, 2, [225, 180, 75, 255]);
+      paintBox(b, 20, 56, 11, 3, 10, [182, 192, 202]);
+      paintBox(b, 0, 68, 9, 6, 7, [176, 186, 196]);
+      fillRect(b, 9, 76, 5, 3, [118, 242, 194, 255]);
+      paintBox(b, 34, 70, 1, 7, 6, [145, 102, 58]);
+      fillRect(b, 40, 76, 1, 7, [190, 198, 208, 255]);
+      paintBox(b, 52, 70, 2, 3, 2, [95, 102, 110]);
+      fillRect(b, 54, 70, 2, 2, [118, 245, 195, 255]);
+
+      paintBox(b, 0, 84, 1, 1, 10, [138, 98, 54]);
+      paintBox(b, 6, 96, 1, 2, 8, [205, 215, 225]);
+      paintBox(b, 26, 84, 1, 7, 2, [195, 206, 218]);
+      paintBox(b, 34, 84, 1, 4, 4, [195, 206, 218]);
+      paintBox(b, 46, 84, 1, 3, 3, [195, 206, 218]);
+      paintBox(b, 56, 84, 1, 4, 2, [195, 206, 218]);
+      paintBox(b, 64, 84, 1, 1, 12, [152, 110, 64]);
+      paintBox(b, 92, 84, 1, 8, 3, [142, 100, 52]);
+
+      return bufferToPngBytes(b);
+    }
+
+    function buildWavBytes(notes) {
+      const sampleRate = 22050;
+      const samples = [];
+      for (const [freq, dur, vol] of notes) {
+        const n = Math.floor(sampleRate * dur);
+        const fade = Math.min(Math.floor(0.012 * sampleRate), Math.max(1, n >> 2));
+        for (let i = 0; i < n; i++) {
+          const t = i / sampleRate;
+          let env = 1.0;
+          if (i < fade) env = i / fade;
+          else if (i > n - fade) env = (n - i) / fade;
+          const val = freq <= 0 ? 0 : (0.78 * Math.sin(2 * Math.PI * freq * t) + 0.22 * Math.sin(4 * Math.PI * freq * t));
+          samples.push(Math.max(-32767, Math.min(32767, Math.round(val * vol * env * 13500))));
+        }
+      }
+      const out = new Uint8Array(44 + samples.length * 2);
+      const dv = new DataView(out.buffer);
+      const writeStr = (off, s) => { for (let i = 0; i < s.length; i++) out[off + i] = s.charCodeAt(i); };
+      writeStr(0, "RIFF");
+      dv.setUint32(4, 36 + samples.length * 2, true);
+      writeStr(8, "WAVEfmt ");
+      dv.setUint32(16, 16, true);
+      dv.setUint16(20, 1, true);
+      dv.setUint16(22, 1, true);
+      dv.setUint32(24, sampleRate, true);
+      dv.setUint32(28, sampleRate * 2, true);
+      dv.setUint16(32, 2, true);
+      dv.setUint16(34, 16, true);
+      writeStr(36, "data");
+      dv.setUint32(40, samples.length * 2, true);
+      for (let i = 0; i < samples.length; i++) {
+        dv.setInt16(44 + i * 2, samples[i], true);
+      }
+      return out;
+    }
+
+    // =========================================================================
+    // BUILD COMPLETE BP + RP ARCHIVE ENTRIES
+    // =========================================================================
+    const BP_HEADER_UUID = "d48f9a10-7b21-4e92-9c11-100000000001";
+    const BP_DATA_UUID   = "d48f9a10-7b21-4e92-9c11-100000000002";
+    const BP_SCRIPT_UUID = "d48f9a10-7b21-4e92-9c11-100000000003";
+    const RP_HEADER_UUID = "d48f9a10-7b21-4e92-9c11-200000000001";
+    const RP_RES_UUID    = "d48f9a10-7b21-4e92-9c11-200000000002";
+
+    let cachedAddonBlob = null;
+
+    function assembleFullAddon() {
+      const entries = [];
+      const addJson = (path, obj) => entries.push({ path, data: JSON.stringify(obj, null, 2) });
+      const addText = (path, txt) => entries.push({ path, data: txt });
+      const addBin  = (path, bin) => entries.push({ path, data: bin });
+
+      // Pack Icon + Preview Canvas
+      const iconBuf = createPixelBuffer(64, 64);
+      stoneBrickFill(iconBuf, 0, 0, 64, 64, [64, 61, 53], 0);
+      stoneBrickFill(iconBuf, 5, 5, 54, 54, [118, 113, 98], 6);
+      fillRect(iconBuf, 5, 5, 54, 3, [152, 145, 126, 255]);
+      fillRect(iconBuf, 5, 56, 54, 3, [76, 72, 62, 255]);
+      fillRect(iconBuf, 12, 18, 40, 26, [34, 37, 34, 255]);
+      fillRect(iconBuf, 12, 18, 40, 3, [22, 25, 23, 255]);
+      fillRect(iconBuf, 18, 24, 9, 14, [118, 242, 194, 255]);
+      fillRect(iconBuf, 19, 25, 4, 4, [205, 255, 235, 255]);
+      fillRect(iconBuf, 37, 24, 9, 14, [118, 242, 194, 255]);
+      fillRect(iconBuf, 38, 25, 4, 4, [205, 255, 235, 255]);
+
+      const previewCanvas = document.getElementById("robot-preview-canvas");
+      if (previewCanvas) {
+        previewCanvas.getContext("2d").putImageData(new ImageData(iconBuf.data, 64, 64), 0, 0);
+      }
+
+      const iconPng = bufferToPngBytes(iconBuf);
+      addBin("Personal_AI_Agent_BP/pack_icon.png", iconPng);
+      addBin("Personal_AI_Agent_RP/pack_icon.png", iconPng);
+
+      // Entity Skins (5 Expressions)
+      for (const m of ["normal", "low_battery", "charging", "happy", "sleep"]) {
+        addBin(`Personal_AI_Agent_RP/textures/entity/ai_agent_${m}.png`, buildRobotTexture(m));
+      }
+
+      // Charging Station Block Textures
+      const dockTop = createPixelBuffer(16, 16);
+      stoneBrickFill(dockTop, 0, 0, 16, 16, [96, 92, 82], 0);
+      fillRect(dockTop, 2, 2, 12, 12, [42, 45, 42, 255]);
+      fillRect(dockTop, 3, 3, 10, 10, [186, 112, 64, 255]);
+      fillRect(dockTop, 5, 5, 6, 6, [118, 242, 194, 255]);
+      addBin("Personal_AI_Agent_RP/textures/blocks/charging_station_top.png", bufferToPngBytes(dockTop));
+
+      const dockSide = createPixelBuffer(16, 16);
+      stoneBrickFill(dockSide, 0, 0, 16, 16, [92, 88, 78], -4);
+      fillRect(dockSide, 2, 6, 12, 5, [34, 37, 34, 255]);
+      fillRect(dockSide, 4, 8, 8, 2, [118, 242, 194, 255]);
+      addBin("Personal_AI_Agent_RP/textures/blocks/charging_station_side.png", bufferToPngBytes(dockSide));
+
+      const dockBot = createPixelBuffer(16, 16);
+      stoneBrickFill(dockBot, 0, 0, 16, 16, [68, 65, 58], -8);
+      addBin("Personal_AI_Agent_RP/textures/blocks/charging_station_bottom.png", bufferToPngBytes(dockBot));
+
+      // Item Icons (13 Items)
+      const makeIcon = (name, fn) => {
+        const ib = createPixelBuffer(16, 16);
+        fn(ib);
+        addBin(`Personal_AI_Agent_RP/textures/items/${name}.png`, bufferToPngBytes(ib));
+      };
+      makeIcon("agent_remote", b => {
+        fillRect(b, 4, 3, 8, 11, [62, 60, 54, 255]);
+        fillRect(b, 5, 4, 6, 9, [108, 104, 92, 255]);
+        fillRect(b, 7, 1, 2, 3, [165, 170, 175, 255]);
+        fillRect(b, 7, 0, 2, 1, [118, 242, 194, 255]);
+        fillRect(b, 5, 5, 6, 4, [30, 34, 32, 255]);
+        fillRect(b, 6, 6, 4, 2, [118, 242, 194, 255]);
+        fillRect(b, 6, 10, 2, 2, [225, 80, 65, 255]);
+        fillRect(b, 9, 10, 1, 2, [118, 242, 194, 255]);
+      });
+      makeIcon("robot_unit", b => {
+        fillRect(b, 2, 4, 1, 3, [82, 78, 68, 255]);
+        fillRect(b, 13, 4, 1, 3, [82, 78, 68, 255]);
+        fillRect(b, 3, 2, 10, 7, [116, 111, 96, 255]);
+        fillRect(b, 4, 4, 8, 4, [34, 37, 34, 255]);
+        fillRect(b, 5, 5, 2, 2, [118, 242, 194, 255]);
+        fillRect(b, 9, 5, 2, 2, [118, 242, 194, 255]);
+        fillRect(b, 4, 9, 8, 5, [104, 100, 86, 255]);
+        fillRect(b, 4, 14, 3, 2, [82, 78, 68, 255]);
+        fillRect(b, 9, 14, 3, 2, [82, 78, 68, 255]);
+      });
+      makeIcon("battery_cell", b => {
+        fillRect(b, 6, 2, 4, 1, [185, 190, 195, 255]);
+        fillRect(b, 4, 3, 8, 11, [58, 60, 56, 255]);
+        fillRect(b, 5, 4, 6, 3, [192, 115, 65, 255]);
+        fillRect(b, 5, 8, 6, 5, [118, 242, 194, 255]);
+      });
+      makeIcon("power_cell_plus", b => {
+        fillRect(b, 6, 2, 4, 1, [185, 190, 195, 255]);
+        fillRect(b, 4, 3, 8, 11, [58, 60, 56, 255]);
+        fillRect(b, 5, 4, 6, 3, [192, 115, 65, 255]);
+        fillRect(b, 5, 8, 6, 5, [85, 255, 130, 255]);
+      });
+      makeIcon("ai_core", b => {
+        fillRect(b, 3, 3, 10, 10, [74, 72, 64, 255]);
+        fillRect(b, 4, 4, 8, 8, [32, 36, 34, 255]);
+        fillRect(b, 5, 5, 6, 6, [118, 242, 194, 255]);
+        fillRect(b, 6, 6, 4, 4, [205, 255, 235, 255]);
+      });
+      makeIcon("repair_kit", b => {
+        fillRect(b, 2, 5, 12, 9, [158, 58, 52, 255]);
+        fillRect(b, 3, 6, 10, 7, [188, 70, 64, 255]);
+        fillRect(b, 5, 3, 6, 2, [96, 94, 86, 255]);
+        fillRect(b, 7, 7, 2, 5, [242, 246, 248, 255]);
+        fillRect(b, 5, 9, 6, 1, [242, 246, 248, 255]);
+      });
+      const upgCols = {
+        upgrade_storage: [215, 145, 65, 255], upgrade_power: [95, 245, 165, 255],
+        upgrade_efficiency: [85, 215, 255, 255], upgrade_processor: [185, 115, 255, 255],
+        upgrade_defense: [195, 205, 218, 255], upgrade_mobility: [255, 220, 75, 255],
+        upgrade_repair: [255, 95, 115, 255]
+      };
+      for (const [uk, uc] of Object.entries(upgCols)) {
+        makeIcon(uk, b => {
+          fillRect(b, 3, 2, 10, 12, [58, 56, 50, 255]);
+          fillRect(b, 4, 3, 8, 10, [88, 85, 76, 255]);
+          fillRect(b, 5, 5, 6, 6, uc);
+          fillRect(b, 5, 12, 6, 2, [215, 170, 72, 255]);
+        });
+      }
+
+      // Custom Sound Effects (7 WAV files)
+      addBin("Personal_AI_Agent_RP/sounds/agent/beep_happy.wav",   buildWavBytes([[660,0.07,0.5],[880,0.07,0.55],[1175,0.11,0.6]]));
+      addBin("Personal_AI_Agent_RP/sounds/agent/beep_confirm.wav", buildWavBytes([[740,0.06,0.45],[988,0.08,0.5]]));
+      addBin("Personal_AI_Agent_RP/sounds/agent/beep_curious.wav", buildWavBytes([[587,0.07,0.45],[659,0.06,0.45],[880,0.09,0.5]]));
+      addBin("Personal_AI_Agent_RP/sounds/agent/low_battery.wav",  buildWavBytes([[523,0.10,0.55],[0,0.04,0],[392,0.14,0.6]]));
+      addBin("Personal_AI_Agent_RP/sounds/agent/charge_tick.wav",  buildWavBytes([[523,0.05,0.35],[659,0.05,0.38],[784,0.07,0.42]]));
+      addBin("Personal_AI_Agent_RP/sounds/agent/task_done.wav",    buildWavBytes([[587,0.06,0.5],[740,0.06,0.55],[880,0.06,0.55],[1175,0.13,0.6]]));
+      addBin("Personal_AI_Agent_RP/sounds/agent/hurt_mech.wav",    buildWavBytes([[230,0.07,0.6],[170,0.09,0.55]]));
+
+      // RP Manifest, Geometry, Animations, Controllers, Entity & Langs
+      addJson("Personal_AI_Agent_RP/manifest.json", {
+        format_version: 2,
+        header: {
+          name: "Personal AI Agent [RP]",
+          description: "Cute Stone Robotic Companion — 3D Model, Smooth Animations, Textures & Sounds",
+          uuid: RP_HEADER_UUID, version: [1, 0, 0], min_engine_version: [1, 21, 50]
+        },
+        modules: [{ type: "resources", uuid: RP_RES_UUID, version: [1, 0, 0] }],
+        dependencies: [{ uuid: BP_HEADER_UUID, version: [1, 0, 0] }]
+      });
+
+      addJson("Personal_AI_Agent_RP/models/entity/ai_agent.geo.json", {
+        format_version: "1.12.0",
+        "minecraft:geometry": [{
+          description: {
+            identifier: "geometry.ai_agent", texture_width: 128, texture_height: 128,
+            visible_bounds_width: 2.5, visible_bounds_height: 2.5, visible_bounds_offset: [0, 0.75, 0]
+          },
+          bones: [
+            { name: "root", pivot: [0, 0, 0] },
+            { name: "body", parent: "root", pivot: [0, 4, 0], cubes: [{ origin: [-4, 4, -3], size: [8, 7, 6], uv: [0, 20] }] },
+            { name: "equip_backpack", parent: "body", pivot: [0, 7.5, 3], cubes: [{ origin: [-3, 4.5, 3], size: [6, 6, 3], uv: [0, 56] }] },
+            { name: "equip_armor_body", parent: "body", pivot: [0, 7.5, 0], cubes: [{ origin: [-4.5, 4.5, -3.5], size: [9, 6, 7], uv: [0, 68], inflate: 0.15 }] },
+            {
+              name: "head", parent: "body", pivot: [0, 11, 0],
+              cubes: [
+                { origin: [-5, 11, -4.5], size: [10, 8, 9], uv: [0, 0] },
+                { origin: [-6, 13, -2], size: [1, 4, 4], uv: [40, 0] },
+                { origin: [5, 13, -2], size: [1, 4, 4], uv: [40, 0], mirror: true }
+              ]
+            },
+            { name: "eye_right", parent: "head", pivot: [-2, 14.5, -4.52], cubes: [{ origin: [-3, 13, -4.55], size: [2, 3, 1], uv: [70, 0] }] },
+            { name: "eye_left", parent: "head", pivot: [2, 14.5, -4.52], cubes: [{ origin: [1, 13, -4.55], size: [2, 3, 1], uv: [80, 0] }] },
+            { name: "equip_armor_head", parent: "head", pivot: [0, 18, 0], cubes: [{ origin: [-5.5, 16.8, -5], size: [11, 3, 10], uv: [20, 56], inflate: 0.1 }] },
+            { name: "equip_upgrade_fin", parent: "head", pivot: [0, 19, 1], cubes: [{ origin: [-1, 19, 0], size: [2, 3, 2], uv: [52, 70] }] },
+            { name: "rightArm", parent: "body", pivot: [-5.5, 10, 0], cubes: [{ origin: [-7, 7.5, -1.5], size: [3, 3, 3], uv: [32, 20] }] },
+            {
+              name: "rightForearm", parent: "rightArm", pivot: [-5.5, 7.5, 0],
+              cubes: [
+                { origin: [-7, 4.5, -1.5], size: [3, 3, 3], uv: [46, 20] },
+                { origin: [-7, 3.0, -1.5], size: [1, 1.8, 3], uv: [60, 20] },
+                { origin: [-5, 3.0, -1.5], size: [1, 1.8, 3], uv: [60, 20] }
+              ]
+            },
+            { name: "rightItem", parent: "rightForearm", pivot: [-5.5, 4.0, -0.5] },
+            { name: "tool_sword", parent: "rightItem", pivot: [-5.5, 4.0, -0.5], cubes: [{ origin: [-6, 3.5, -4.5], size: [1, 1, 5], uv: [0, 84] }, { origin: [-6, 2.5, -4.5], size: [1, 3, 1], uv: [0, 84] }, { origin: [-6, 3.0, -12.5], size: [1, 2, 8], uv: [6, 96] }] },
+            { name: "tool_pickaxe", parent: "rightItem", pivot: [-5.5, 4.0, -0.5], cubes: [{ origin: [-6, 3.5, -9.5], size: [1, 1, 10], uv: [0, 84] }, { origin: [-6, 0.5, -10.5], size: [1, 7, 2], uv: [26, 84] }] },
+            { name: "tool_axe", parent: "rightItem", pivot: [-5.5, 4.0, -0.5], cubes: [{ origin: [-6, 3.5, -9.5], size: [1, 1, 10], uv: [0, 84] }, { origin: [-6, 1.0, -10.5], size: [1, 4, 4], uv: [34, 84] }] },
+            { name: "tool_shovel", parent: "rightItem", pivot: [-5.5, 4.0, -0.5], cubes: [{ origin: [-6, 3.5, -9.5], size: [1, 1, 10], uv: [0, 84] }, { origin: [-6, 2.5, -12.5], size: [1, 3, 3], uv: [46, 84] }] },
+            { name: "tool_hoe", parent: "rightItem", pivot: [-5.5, 4.0, -0.5], cubes: [{ origin: [-6, 3.5, -9.5], size: [1, 1, 10], uv: [0, 84] }, { origin: [-6, 1.0, -10.5], size: [1, 4, 2], uv: [56, 84] }] },
+            { name: "tool_rod", parent: "rightItem", pivot: [-5.5, 4.0, -0.5], cubes: [{ origin: [-6, 3.5, -11.5], size: [1, 1, 12], uv: [64, 84] }, { origin: [-6, 0.5, -11.5], size: [1, 3, 1], uv: [64, 84] }] },
+            { name: "tool_bow", parent: "rightItem", pivot: [-5.5, 4.0, -0.5], cubes: [{ origin: [-6, 0.5, -4.5], size: [1, 8, 3], uv: [92, 84] }] },
+            { name: "leftArm", parent: "body", pivot: [5.5, 10, 0], cubes: [{ origin: [4, 7.5, -1.5], size: [3, 3, 3], uv: [32, 28] }] },
+            {
+              name: "leftForearm", parent: "leftArm", pivot: [5.5, 7.5, 0],
+              cubes: [
+                { origin: [4, 4.5, -1.5], size: [3, 3, 3], uv: [46, 28] },
+                { origin: [4, 3.0, -1.5], size: [1, 1.8, 3], uv: [60, 28] },
+                { origin: [6, 3.0, -1.5], size: [1, 1.8, 3], uv: [60, 28] }
+              ]
+            },
+            { name: "equip_shield", parent: "leftForearm", pivot: [7.2, 6.0, 0], cubes: [{ origin: [7.0, 2.5, -3], size: [1, 7, 6], uv: [34, 70] }] },
+            { name: "rightLeg", parent: "root", pivot: [-2.2, 4, 0], cubes: [{ origin: [-3.7, 0, -1.8], size: [3, 4, 4], uv: [0, 36] }, { origin: [-3.7, 0, -2.8], size: [3, 2, 1], uv: [16, 36] }] },
+            { name: "leftLeg", parent: "root", pivot: [2.2, 4, 0], cubes: [{ origin: [0.7, 0, -1.8], size: [3, 4, 4], uv: [0, 46] }, { origin: [0.7, 0, -2.8], size: [3, 2, 1], uv: [16, 46] }] }
+          ]
+        }]
+      });
+
+      addJson("Personal_AI_Agent_RP/animations/ai_agent.animation.json", {
+        format_version: "1.8.0",
+        animations: {
+          "animation.ai_agent.look_at_target": { loop: true, bones: { head: { rotation: ["math.clamp(query.target_x_rotation, -26, 26)", "math.clamp(query.target_y_rotation, -40, 40)", 0] } } },
+          "animation.ai_agent.blink": { loop: true, animation_length: 4.2, bones: { eye_left: { scale: { "0.0": [1,1,1], "3.85": [1,1,1], "3.93": [1,0.08,1], "4.02": [1,1,1], "4.2": [1,1,1] } }, eye_right: { scale: { "0.0": [1,1,1], "3.85": [1,1,1], "3.93": [1,0.08,1], "4.02": [1,1,1], "4.2": [1,1,1] } } } },
+          "animation.ai_agent.idle": { loop: true, bones: { body: { position: [0, "math.sin(query.anim_time * 110) * 0.22", 0], rotation: ["math.sin(query.anim_time * 55) * 1.2", 0, "math.cos(query.anim_time * 55) * 1.0"] }, head: { rotation: ["math.sin(query.anim_time * 90 - 25) * 2.0", "math.sin(query.anim_time * 35) * 4.5", "math.sin(query.anim_time * 45) * 2.5"] }, rightArm: { rotation: ["math.sin(query.anim_time * 90) * 3.5", 0, "4 + math.cos(query.anim_time * 110) * 2.0"] }, rightForearm: { rotation: ["-12 + math.sin(query.anim_time * 90) * 2.5", 0, 0] }, leftArm: { rotation: ["-math.sin(query.anim_time * 90) * 3.5", 0, "-4 - math.cos(query.anim_time * 110) * 2.0"] }, leftForearm: { rotation: ["-12 - math.sin(query.anim_time * 90) * 2.5", 0, 0] }, equip_upgrade_fin: { rotation: [0, "math.sin(query.anim_time * 140) * 12", 0] } } },
+          "animation.ai_agent.walk": { loop: true, bones: { body: { position: [0, "math.abs(math.cos(query.anim_time * 380)) * 0.65", 0], rotation: ["4.0 + math.sin(query.anim_time * 760) * 1.5", "math.sin(query.anim_time * 380) * 3.5", "math.sin(query.anim_time * 380) * 3.2"] }, head: { rotation: ["-2.5 + math.cos(query.anim_time * 760) * 2.0", 0, "-math.sin(query.anim_time * 380) * 2.8"] }, rightLeg: { rotation: ["math.sin(query.anim_time * 380) * 34", 0, 0], position: [0, "math.max(0, math.cos(query.anim_time * 380)) * 0.6", 0] }, leftLeg: { rotation: ["-math.sin(query.anim_time * 380) * 34", 0, 0], position: [0, "math.max(0, -math.cos(query.anim_time * 380)) * 0.6", 0] }, rightArm: { rotation: ["-math.sin(query.anim_time * 380) * 28", 0, 5] }, rightForearm: { rotation: ["-18 - math.max(0, math.sin(query.anim_time * 380)) * 12", 0, 0] }, leftArm: { rotation: ["math.sin(query.anim_time * 380) * 28", 0, -5] }, leftForearm: { rotation: ["-18 - math.max(0, -math.sin(query.anim_time * 380)) * 12", 0, 0] } } },
+          "animation.ai_agent.run": { loop: true, bones: { body: { position: [0, "math.abs(math.cos(query.anim_time * 560)) * 1.1", 0], rotation: ["11.0 + math.sin(query.anim_time * 1120) * 2.5", "math.sin(query.anim_time * 560) * 5.0", "math.sin(query.anim_time * 560) * 4.5"] }, head: { rotation: ["-7.0 + math.cos(query.anim_time * 1120) * 2.5", 0, "-math.sin(query.anim_time * 560) * 3.5"] }, rightLeg: { rotation: ["math.sin(query.anim_time * 560) * 48", 0, 0] }, leftLeg: { rotation: ["-math.sin(query.anim_time * 560) * 48", 0, 0] }, rightArm: { rotation: ["-math.sin(query.anim_time * 560) * 42", 0, 8] }, rightForearm: { rotation: [-28, 0, 0] }, leftArm: { rotation: ["math.sin(query.anim_time * 560) * 42", 0, -8] }, leftForearm: { rotation: [-28, 0, 0] } } },
+          "animation.ai_agent.stay_sit": { loop: true, bones: { body: { position: [0, -2.5, 0], rotation: ["3 + math.sin(query.anim_time * 70) * 1.2", 0, 0] }, head: { rotation: ["6 + math.sin(query.anim_time * 70 - 30) * 2.5", "math.sin(query.anim_time * 28) * 5.0", "math.sin(query.anim_time * 40) * 2.5"] }, rightLeg: { position: [0, -0.5, -1.2], rotation: [-78, 10, 0] }, leftLeg: { position: [0, -0.5, -1.2], rotation: [-78, -10, 0] }, rightArm: { rotation: [-22, 0, 6] }, rightForearm: { rotation: [-25, 0, 0] }, leftArm: { rotation: [-22, 0, -6] }, leftForearm: { rotation: [-25, 0, 0] } } },
+          "animation.ai_agent.charging": { loop: true, bones: { body: { position: [0, "-2.3 + math.sin(query.anim_time * 180) * 0.35", 0], rotation: ["math.sin(query.anim_time * 180) * 1.8", 0, 0] }, head: { rotation: ["8 + math.sin(query.anim_time * 180) * 3.0", 0, "math.sin(query.anim_time * 90) * 2.0"] }, rightLeg: { position: [0, -0.5, -1.2], rotation: [-78, 8, 0] }, leftLeg: { position: [0, -0.5, -1.2], rotation: [-78, -8, 0] }, rightArm: { rotation: ["-30 + math.sin(query.anim_time * 180) * 4", 0, 8] }, leftArm: { rotation: ["-30 + math.sin(query.anim_time * 180) * 4", 0, -8] }, equip_upgrade_fin: { rotation: [0, "query.anim_time * 360", 0] } } },
+          "animation.ai_agent.low_battery": { loop: true, bones: { body: { position: [0, "-0.6 + math.sin(query.anim_time * 65) * 0.2", 0], rotation: ["14 + math.sin(query.anim_time * 65) * 2.5", 0, "math.sin(query.anim_time * 50) * 3.0"] }, head: { rotation: ["18 + math.sin(query.anim_time * 65) * 4.0", 0, "math.cos(query.anim_time * 50) * 4.0"] }, rightArm: { rotation: [12, 0, 6] }, leftArm: { rotation: [12, 0, -6] } } },
+          "animation.ai_agent.work_mine": { loop: true, bones: { body: { rotation: ["8 + math.sin(query.anim_time * 540) * 6", "-math.sin(query.anim_time * 540) * 8", 0] }, rightArm: { rotation: ["-65 + math.sin(query.anim_time * 540) * 52", -10, 6] }, rightForearm: { rotation: ["-25 + math.cos(query.anim_time * 540) * 18", 0, 0] }, leftArm: { rotation: ["-20 - math.sin(query.anim_time * 540) * 12", 10, -8] } } },
+          "animation.ai_agent.work_chop": { loop: true, bones: { body: { rotation: ["6 + math.sin(query.anim_time * 480) * 5", "math.sin(query.anim_time * 480) * 16", 0] }, rightArm: { rotation: ["-55 + math.sin(query.anim_time * 480) * 45", "-20 + math.sin(query.anim_time * 480) * 28", 12] }, rightForearm: { rotation: [-28, 0, 0] } } },
+          "animation.ai_agent.work_farm": { loop: true, bones: { body: { position: [0, "-0.8 + math.abs(math.sin(query.anim_time * 360)) * 0.5", 0], rotation: ["18 + math.sin(query.anim_time * 360) * 6", 0, 0] }, head: { rotation: [14, 0, 0] }, rightArm: { rotation: ["-48 + math.sin(query.anim_time * 360) * 32", 0, 5] }, rightForearm: { rotation: [-22, 0, 0] }, leftArm: { rotation: ["-35 - math.sin(query.anim_time * 360) * 20", 0, -5] } } },
+          "animation.ai_agent.combat_attack": { loop: true, bones: { body: { rotation: [8, "math.sin(query.anim_time * 620) * 14", 0] }, rightArm: { rotation: ["-68 + math.sin(query.anim_time * 620) * 55", "-12 + math.cos(query.anim_time * 620) * 15", 8] }, rightForearm: { rotation: [-24, 0, 0] }, leftArm: { rotation: [-42, 24, -10] }, leftForearm: { rotation: [-35, 15, 0] } } },
+          "animation.ai_agent.collect_bend": { loop: true, bones: { body: { position: [0, "-math.abs(math.sin(query.anim_time * 320)) * 1.5", 0], rotation: ["math.abs(math.sin(query.anim_time * 320)) * 26", 0, 0] }, rightArm: { rotation: ["-math.abs(math.sin(query.anim_time * 320)) * 52", -10, 0] }, leftArm: { rotation: ["-math.abs(math.sin(query.anim_time * 320)) * 52", 10, 0] } } },
+          "animation.ai_agent.fishing": { loop: true, bones: { rightArm: { rotation: ["-46 + math.sin(query.anim_time * 120) * 4.5", -6, 4] }, rightForearm: { rotation: ["-18 + math.cos(query.anim_time * 120) * 3.5", 0, 0] }, head: { rotation: ["6 + math.sin(query.anim_time * 90) * 2.0", 0, "math.sin(query.anim_time * 60) * 2.5"] } } },
+          "animation.ai_agent.happy": { loop: true, bones: { body: { position: [0, "math.abs(math.sin(query.anim_time * 520)) * 2.2", 0], rotation: [0, "math.sin(query.anim_time * 260) * 10", "math.sin(query.anim_time * 260) * 6"] }, head: { rotation: ["-8 + math.sin(query.anim_time * 520) * 6", 0, "math.cos(query.anim_time * 260) * 8"] }, rightArm: { rotation: ["-135 + math.sin(query.anim_time * 520) * 18", 0, 16] }, leftArm: { rotation: ["-135 - math.sin(query.anim_time * 520) * 18", 0, -16] } } }
+        }
+      });
+
+      addJson("Personal_AI_Agent_RP/animation_controllers/ai_agent.animation_controllers.json", {
+        format_version: "1.10.0",
+        animation_controllers: {
+          "controller.animation.ai_agent.locomotion": {
+            initial_state: "idle",
+            states: {
+              idle: { animations: ["idle"], transitions: [{ charging: "query.property('pa:pose') == 6" }, { stay_sit: "query.property('pa:pose') == 1" }, { low_battery: "query.property('pa:eye_state') == 1 && query.modified_move_speed < 0.08" }, { run: "query.modified_move_speed >= 0.32" }, { walk: "query.modified_move_speed >= 0.05" }], blend_transition: 0.22 },
+              walk: { animations: ["walk"], transitions: [{ charging: "query.property('pa:pose') == 6" }, { stay_sit: "query.property('pa:pose') == 1" }, { run: "query.modified_move_speed >= 0.34" }, { idle: "query.modified_move_speed < 0.04" }], blend_transition: 0.2 },
+              run: { animations: ["run"], transitions: [{ charging: "query.property('pa:pose') == 6" }, { stay_sit: "query.property('pa:pose') == 1" }, { walk: "query.modified_move_speed < 0.30 && query.modified_move_speed >= 0.04" }, { idle: "query.modified_move_speed < 0.04" }], blend_transition: 0.2 },
+              stay_sit: { animations: ["stay_sit"], transitions: [{ charging: "query.property('pa:pose') == 6" }, { idle: "query.property('pa:pose') != 1" }], blend_transition: 0.25 },
+              charging: { animations: ["charging"], transitions: [{ idle: "query.property('pa:pose') != 6" }], blend_transition: 0.25 },
+              low_battery: { animations: ["low_battery"], transitions: [{ charging: "query.property('pa:pose') == 6" }, { walk: "query.modified_move_speed >= 0.05" }, { idle: "query.property('pa:eye_state') != 1" }], blend_transition: 0.25 }
+            }
+          },
+          "controller.animation.ai_agent.action": {
+            initial_state: "none",
+            states: {
+              none: { transitions: [{ mining: "query.property('pa:pose') == 2" }, { chopping: "query.property('pa:pose') == 3" }, { farming: "query.property('pa:pose') == 4" }, { combat: "query.property('pa:pose') == 5" }, { collecting: "query.property('pa:pose') == 7" }, { fishing: "query.property('pa:pose') == 8" }, { happy: "query.property('pa:pose') == 9" }], blend_transition: 0.18 },
+              mining: { animations: ["work_mine"], transitions: [{ none: "query.property('pa:pose') != 2" }], blend_transition: 0.18 },
+              chopping: { animations: ["work_chop"], transitions: [{ none: "query.property('pa:pose') != 3" }], blend_transition: 0.18 },
+              farming: { animations: ["work_farm"], transitions: [{ none: "query.property('pa:pose') != 4" }], blend_transition: 0.18 },
+              combat: { animations: ["combat_attack"], transitions: [{ none: "query.property('pa:pose') != 5" }], blend_transition: 0.15 },
+              collecting: { animations: ["collect_bend"], transitions: [{ none: "query.property('pa:pose') != 7" }], blend_transition: 0.18 },
+              fishing: { animations: ["fishing"], transitions: [{ none: "query.property('pa:pose') != 8" }], blend_transition: 0.2 },
+              happy: { animations: ["happy"], transitions: [{ none: "query.property('pa:pose') != 9" }], blend_transition: 0.2 }
+            }
+          }
+        }
+      });
+
+      addJson("Personal_AI_Agent_RP/render_controllers/ai_agent.render_controllers.json", {
+        format_version: "1.8.0",
+        render_controllers: {
+          "controller.render.ai_agent": {
+            arrays: { textures: { "Array.skins": ["Texture.normal", "Texture.low_battery", "Texture.charging", "Texture.happy", "Texture.sleep"] } },
+            geometry: "Geometry.default",
+            materials: [{ "*": "Material.default" }],
+            textures: ["Array.skins[query.property('pa:eye_state')]"],
+            part_visibility: [
+              { "*": true },
+              { equip_backpack: "query.property('pa:has_backpack')" },
+              { equip_armor_head: "query.property('pa:has_armor')" },
+              { equip_armor_body: "query.property('pa:has_armor')" },
+              { equip_shield: "query.property('pa:has_shield')" },
+              { equip_upgrade_fin: "query.property('pa:has_upgrade')" },
+              { tool_sword: "query.property('pa:tool_vis') == 1" },
+              { tool_pickaxe: "query.property('pa:tool_vis') == 2" },
+              { tool_axe: "query.property('pa:tool_vis') == 3" },
+              { tool_shovel: "query.property('pa:tool_vis') == 4" },
+              { tool_hoe: "query.property('pa:tool_vis') == 5" },
+              { tool_rod: "query.property('pa:tool_vis') == 6" },
+              { tool_bow: "query.property('pa:tool_vis') == 7" }
+            ]
+          }
+        }
+      });
+
+      addJson("Personal_AI_Agent_RP/entity/ai_agent.entity.json", {
+        format_version: "1.10.0",
+        "minecraft:client_entity": {
+          description: {
+            identifier: "pa:ai_agent",
+            materials: { default: "entity_alphatest" },
+            textures: {
+              normal: "textures/entity/ai_agent_normal", low_battery: "textures/entity/ai_agent_low_battery",
+              charging: "textures/entity/ai_agent_charging", happy: "textures/entity/ai_agent_happy", sleep: "textures/entity/ai_agent_sleep"
+            },
+            geometry: { default: "geometry.ai_agent" },
+            animations: {
+              look_at_target: "animation.ai_agent.look_at_target", blink: "animation.ai_agent.blink",
+              idle: "animation.ai_agent.idle", walk: "animation.ai_agent.walk", run: "animation.ai_agent.run",
+              stay_sit: "animation.ai_agent.stay_sit", charging: "animation.ai_agent.charging", low_battery: "animation.ai_agent.low_battery",
+              work_mine: "animation.ai_agent.work_mine", work_chop: "animation.ai_agent.work_chop", work_farm: "animation.ai_agent.work_farm",
+              combat_attack: "animation.ai_agent.combat_attack", collect_bend: "animation.ai_agent.collect_bend", fishing: "animation.ai_agent.fishing",
+              happy: "animation.ai_agent.happy", ctrl_locomotion: "controller.animation.ai_agent.locomotion", ctrl_action: "controller.animation.ai_agent.action"
+            },
+            scripts: {
+              animate: [
+                { look_at_target: "query.property('pa:pose') != 6 && query.property('pa:eye_state') != 4" },
+                { blink: "query.property('pa:eye_state') == 0" },
+                "ctrl_locomotion", "ctrl_action"
+              ]
+            },
+            render_controllers: ["controller.render.ai_agent"],
+            spawn_egg: { base_color: "#6E6A5C", overlay_color: "#76F2C2" }
+          }
+        }
+      });
+
+      addJson("Personal_AI_Agent_RP/textures/item_texture.json", {
+        resource_pack_name: "personal_ai_agent_rp", texture_name: "atlas.items",
+        texture_data: {
+          pa_agent_remote: { textures: "textures/items/agent_remote" },
+          pa_robot_unit: { textures: "textures/items/robot_unit" },
+          pa_battery_cell: { textures: "textures/items/battery_cell" },
+          pa_power_cell_plus: { textures: "textures/items/power_cell_plus" },
+          pa_ai_core: { textures: "textures/items/ai_core" },
+          pa_repair_kit: { textures: "textures/items/repair_kit" },
+          pa_upgrade_storage: { textures: "textures/items/upgrade_storage" },
+          pa_upgrade_power: { textures: "textures/items/upgrade_power" },
+          pa_upgrade_efficiency: { textures: "textures/items/upgrade_efficiency" },
+          pa_upgrade_processor: { textures: "textures/items/upgrade_processor" },
+          pa_upgrade_defense: { textures: "textures/items/upgrade_defense" },
+          pa_upgrade_mobility: { textures: "textures/items/upgrade_mobility" },
+          pa_upgrade_repair: { textures: "textures/items/upgrade_repair" }
+        }
+      });
+
+      addJson("Personal_AI_Agent_RP/textures/terrain_texture.json", {
+        resource_pack_name: "personal_ai_agent_rp", texture_name: "atlas.terrain", padding: 8, num_mip_levels: 4,
+        texture_data: {
+          pa_charging_station_top: { textures: "textures/blocks/charging_station_top" },
+          pa_charging_station_side: { textures: "textures/blocks/charging_station_side" },
+          pa_charging_station_bottom: { textures: "textures/blocks/charging_station_bottom" }
+        }
+      });
+
+      addJson("Personal_AI_Agent_RP/blocks.json", {
+        format_version: [1, 1, 0],
+        "pa:charging_station": {
+          textures: { up: "pa_charging_station_top", down: "pa_charging_station_bottom", side: "pa_charging_station_side" },
+          sound: "stone"
+        }
+      });
+
+      addJson("Personal_AI_Agent_RP/sounds/sound_definitions.json", {
+        format_version: "1.14.0",
+        sound_definitions: {
+          "pa.agent.happy": { category: "neutral", max_distance: 24.0, sounds: [{ name: "sounds/agent/beep_happy", volume: 0.7 }] },
+          "pa.agent.confirm": { category: "neutral", max_distance: 24.0, sounds: [{ name: "sounds/agent/beep_confirm", volume: 0.65 }] },
+          "pa.agent.curious": { category: "neutral", max_distance: 20.0, sounds: [{ name: "sounds/agent/beep_curious", volume: 0.6 }] },
+          "pa.agent.low_battery": { category: "neutral", max_distance: 28.0, sounds: [{ name: "sounds/agent/low_battery", volume: 0.8 }] },
+          "pa.agent.charge": { category: "neutral", max_distance: 16.0, sounds: [{ name: "sounds/agent/charge_tick", volume: 0.45 }] },
+          "pa.agent.task_done": { category: "neutral", max_distance: 28.0, sounds: [{ name: "sounds/agent/task_done", volume: 0.75 }] },
+          "pa.agent.hurt": { category: "neutral", max_distance: 24.0, sounds: [{ name: "sounds/agent/hurt_mech", volume: 0.75 }] }
+        }
+      });
+
+      addJson("Personal_AI_Agent_RP/texts/languages.json", ["en_US", "th_TH"]);
+      addText("Personal_AI_Agent_RP/texts/en_US.lang", [
+        "pack.name=Personal AI Agent [RP]",
+        "pack.description=Cute Autonomous Stone Robotic Companion for Survival",
+        "entity.pa:ai_agent.name=AI Robot Companion",
+        "item.spawn_egg.entity.pa:ai_agent.name=Spawn AI Robot Companion",
+        "item.pa:agent_remote=Agent Remote Control",
+        "item.pa:robot_unit=AI Robot Assembly Unit",
+        "item.pa:battery_cell=Standard Battery Cell",
+        "item.pa:power_cell_plus=High-Capacity Power Cell",
+        "item.pa:ai_core=Autonomous AI Core",
+        "item.pa:repair_kit=Robot Repair Kit",
+        "item.pa:upgrade_storage=Storage Upgrade Module",
+        "item.pa:upgrade_power=Power Capacity Module",
+        "item.pa:upgrade_efficiency=Energy Efficiency Module",
+        "item.pa:upgrade_processor=AI Processor Module",
+        "item.pa:upgrade_defense=Armor Defense Module",
+        "item.pa:upgrade_mobility=Mobility Boost Module",
+        "item.pa:upgrade_repair=Self-Repair Nano Module",
+        "tile.pa:charging_station.name=Robot Charging Station"
+      ].join("\n"));
+
+      addText("Personal_AI_Agent_RP/texts/th_TH.lang", [
+        "pack.name=หุ่นยนต์ผู้ช่วย AI อัจฉริยะ [RP]",
+        "pack.description=หุ่นยนต์คู่หูอัตโนมัติสำหรับโหมดเอาชีวิตรอด",
+        "entity.pa:ai_agent.name=หุ่นยนต์ผู้ช่วย AI",
+        "item.spawn_egg.entity.pa:ai_agent.name=เสกหุ่นยนต์ผู้ช่วย AI",
+        "item.pa:agent_remote=รีโมทควบคุมหุ่นยนต์ AI",
+        "item.pa:robot_unit=ชุดประกอบหุ่นยนต์ผู้ช่วย AI",
+        "item.pa:battery_cell=แบตเตอรี่มาตรฐาน",
+        "item.pa:power_cell_plus=แบตเตอรี่ความจุสูงพิเศษ",
+        "item.pa:ai_core=แกนประมวลผล AI อัจฉริยะ",
+        "item.pa:repair_kit=กล่องซ่อมบำรุงหุ่นยนต์",
+        "item.pa:upgrade_storage=โมดูลอัปเกรดช่องเก็บของ",
+        "item.pa:upgrade_power=โมดูลอัปเกรดความจุพลังงาน",
+        "item.pa:upgrade_efficiency=โมดูลประหยัดพลังงาน",
+        "item.pa:upgrade_processor=โมดูลเพิ่มความเร็วสมองกล",
+        "item.pa:upgrade_defense=โมดูลเสริมเกราะป้องกัน",
+        "item.pa:upgrade_mobility=โมดูลเพิ่มความเร็วเคลื่อนที่",
+        "item.pa:upgrade_repair=โมดูลซ่อมแซมตัวเองอัตโนมัติ",
+        "tile.pa:charging_station.name=แท่นชาร์จพลังงานหุ่นยนต์"
+      ].join("\n"));
+
+      // BP Manifest, Entity, Block, Loot, Items & Recipes
+      addJson("Personal_AI_Agent_BP/manifest.json", {
+        format_version: 2,
+        header: {
+          name: "Personal AI Agent [BP]",
+          description: "Autonomous Survival AI Robot Companion — AI Brain, Equipment, Tasks, Energy & Remote",
+          uuid: BP_HEADER_UUID, version: [1, 0, 0], min_engine_version: [1, 21, 50]
+        },
+        modules: [
+          { type: "data", uuid: BP_DATA_UUID, version: [1, 0, 0] },
+          { type: "script", language: "javascript", uuid: BP_SCRIPT_UUID, version: [1, 0, 0], entry: "scripts/main.js" }
+        ],
+        dependencies: [
+          { uuid: RP_HEADER_UUID, version: [1, 0, 0] },
+          { module_name: "@minecraft/server", version: "1.16.0" },
+          { module_name: "@minecraft/server-ui", version: "1.3.0" }
+        ]
+      });
+
+      addJson("Personal_AI_Agent_BP/entities/ai_agent.json", {
+        format_version: "1.21.40",
+        "minecraft:entity": {
+          description: {
+            identifier: "pa:ai_agent", is_spawnable: true, is_summonable: true, is_experimental: false,
+            properties: {
+              "pa:pose": { type: "int", range: [0, 10], default: 0, client_sync: true },
+              "pa:eye_state": { type: "int", range: [0, 4], default: 0, client_sync: true },
+              "pa:tool_vis": { type: "int", range: [0, 7], default: 0, client_sync: true },
+              "pa:has_backpack": { type: "bool", default: false, client_sync: true },
+              "pa:has_armor": { type: "bool", default: false, client_sync: true },
+              "pa:has_shield": { type: "bool", default: false, client_sync: true },
+              "pa:has_upgrade": { type: "bool", default: false, client_sync: true }
+            }
+          },
+          component_groups: {
+            "pa:untamed": { "minecraft:tameable": { probability: 1.0, tame_items: ["iron_ingot", "redstone", "copper_ingot"], tame_event: { event: "pa:on_tame", target: "self" } } },
+            "pa:tamed": { "minecraft:is_tamed": {} },
+            "pa:mode_follow": { "minecraft:behavior.follow_owner": { priority: 3, speed_multiplier: 1.15, start_distance: 4.0, stop_distance: 2.3, can_teleport: false }, "minecraft:behavior.random_stroll": { priority: 8, speed_multiplier: 0.75 } },
+            "pa:mode_stay": { "minecraft:movement": { value: 0.0 } },
+            "pa:mode_task_nav": { "minecraft:behavior.random_stroll": { priority: 9, speed_multiplier: 0.6 } },
+            "pa:combat_enabled": { "minecraft:attack": { damage: 5 }, "minecraft:behavior.melee_attack": { priority: 2, speed_multiplier: 1.25, track_target: true }, "minecraft:behavior.owner_hurt_by_target": { priority: 1 }, "minecraft:behavior.owner_hurt_target": { priority: 2 }, "minecraft:behavior.hurt_by_target": { priority: 2 } },
+            "pa:speed_base": { "minecraft:movement": { value: 0.28 } },
+            "pa:speed_boost": { "minecraft:movement": { value: 0.36 } },
+            "pa:speed_low_power": { "minecraft:movement": { value: 0.16 } }
+          },
+          components: {
+            "minecraft:type_family": { family: ["ai_agent", "robot", "mob"] },
+            "minecraft:collision_box": { width: 0.65, height: 1.18 },
+            "minecraft:health": { value: 40, max: 40 },
+            "minecraft:damage_sensor": { triggers: [{ cause: "fall", deals_damage: false }] },
+            "minecraft:breathable": { total_supply: 15, suffocate_time: 0, breathes_air: true, breathes_water: true },
+            "minecraft:physics": {},
+            "minecraft:pushable": { is_pushable: true, is_pushable_by_piston: true },
+            "minecraft:movement.basic": {},
+            "minecraft:jump.static": {},
+            "minecraft:can_climb": {},
+            "minecraft:navigation.walk": { can_path_over_water: true, avoid_water: true, avoid_damage_blocks: true, can_pass_doors: true, can_open_doors: true },
+            "minecraft:behavior.float": { priority: 0 },
+            "minecraft:behavior.look_at_player": { priority: 6, look_distance: 10.0, probability: 0.08 },
+            "minecraft:behavior.random_look_around": { priority: 7 },
+            "minecraft:persistent": {},
+            "minecraft:nameable": { allow_name_tag_renaming: true, always_show: true },
+            "minecraft:inventory": { inventory_size: 27, container_type: "horse", private: false, restrict_to_owner: false }
+          },
+          events: {
+            "minecraft:entity_spawned": { add: { component_groups: ["pa:untamed", "pa:mode_follow", "pa:speed_base", "pa:combat_enabled"] } },
+            "pa:on_tame": { remove: { component_groups: ["pa:untamed"] }, add: { component_groups: ["pa:tamed", "pa:mode_follow", "pa:speed_base", "pa:combat_enabled"] } },
+            "pa:set_follow": { remove: { component_groups: ["pa:mode_stay", "pa:mode_task_nav"] }, add: { component_groups: ["pa:mode_follow"] } },
+            "pa:set_stay": { remove: { component_groups: ["pa:mode_follow", "pa:mode_task_nav"] }, add: { component_groups: ["pa:mode_stay"] } },
+            "pa:set_task_nav": { remove: { component_groups: ["pa:mode_follow", "pa:mode_stay"] }, add: { component_groups: ["pa:mode_task_nav"] } },
+            "pa:enable_combat": { add: { component_groups: ["pa:combat_enabled"] } },
+            "pa:disable_combat": { remove: { component_groups: ["pa:combat_enabled"] } },
+            "pa:speed_normal": { remove: { component_groups: ["pa:speed_boost", "pa:speed_low_power", "pa:mode_stay"] }, add: { component_groups: ["pa:speed_base"] } },
+            "pa:speed_upgraded": { remove: { component_groups: ["pa:speed_base", "pa:speed_low_power", "pa:mode_stay"] }, add: { component_groups: ["pa:speed_boost"] } },
+            "pa:speed_tired": { remove: { component_groups: ["pa:speed_base", "pa:speed_boost"] }, add: { component_groups: ["pa:speed_low_power"] } }
+          }
+        }
+      });
+
+      addJson("Personal_AI_Agent_BP/blocks/charging_station.json", {
+        format_version: "1.21.40",
+        "minecraft:block": {
+          description: { identifier: "pa:charging_station", menu_category: { category: "items" } },
+          components: {
+            "minecraft:destructible_by_mining": { seconds_to_destroy: 2.0 },
+            "minecraft:destructible_by_explosion": { explosion_resistance: 6.0 },
+            "minecraft:light_emission": 9,
+            "minecraft:map_color": "#76F2C2",
+            "minecraft:loot": "loot_tables/blocks/charging_station.json"
+          }
+        }
+      });
+      addJson("Personal_AI_Agent_BP/loot_tables/blocks/charging_station.json", {
+        pools: [{ rolls: 1, entries: [{ type: "item", name: "pa:charging_station", weight: 1 }] }]
+      });
+
+      const addItemDef = (id, icon, stack, glint, cat = "items") => {
+        const comp = { "minecraft:icon": icon, "minecraft:max_stack_size": stack, "minecraft:display_name": { value: `item.${id}` } };
+        if (glint) comp["minecraft:glint"] = true;
+        addJson(`Personal_AI_Agent_BP/items/${id.split(":")[1]}.json`, {
+          format_version: "1.21.40",
+          "minecraft:item": { description: { identifier: id, menu_category: { category: cat } }, components: comp }
+        });
+      };
+      addItemDef("pa:agent_remote", "pa_agent_remote", 1, false, "equipment");
+      addItemDef("pa:robot_unit", "pa_robot_unit", 1, true, "equipment");
+      addItemDef("pa:battery_cell", "pa_battery_cell", 16, false);
+      addItemDef("pa:power_cell_plus", "pa_power_cell_plus", 16, true);
+      addItemDef("pa:ai_core", "pa_ai_core", 16, true);
+      addItemDef("pa:repair_kit", "pa_repair_kit", 16, false);
+      for (const u of ["storage", "power", "efficiency", "processor", "defense", "mobility", "repair"]) {
+        addItemDef(`pa:upgrade_${u}`, `pa_upgrade_${u}`, 16, false);
+      }
+
+      const addRecipe = (name, pattern, key, result, count = 1) => {
+        addJson(`Personal_AI_Agent_BP/recipes/${name}.json`, {
+          format_version: "1.20.10",
+          "minecraft:recipe_shaped": {
+            description: { identifier: `pa:${name}` }, tags: ["crafting_table"], pattern, key,
+            unlock: [{ item: "minecraft:iron_ingot" }, { item: "minecraft:redstone" }],
+            result: { item: result, count }
+          }
+        });
+      };
+      addRecipe("ai_core", ["ICI", "RGR", "ICI"], { I: { item: "minecraft:iron_ingot" }, C: { item: "minecraft:copper_ingot" }, R: { item: "minecraft:redstone" }, G: { item: "minecraft:glass_pane" } }, "pa:ai_core", 1);
+      addRecipe("battery_cell", [" C ", "RKR", " I "], { C: { item: "minecraft:copper_ingot" }, R: { item: "minecraft:redstone" }, K: { item: "minecraft:coal" }, I: { item: "minecraft:iron_ingot" } }, "pa:battery_cell", 2);
+      addRecipe("power_cell_plus", [" G ", "BRB", " C "], { G: { item: "minecraft:gold_ingot" }, B: { item: "pa:battery_cell" }, R: { item: "minecraft:redstone_block" }, C: { item: "minecraft:copper_ingot" } }, "pa:power_cell_plus", 1);
+      addRecipe("robot_unit", ["SSS", "IAI", "CBC"], { S: { item: "minecraft:stone_bricks" }, I: { item: "minecraft:iron_ingot" }, A: { item: "pa:ai_core" }, C: { item: "minecraft:chest" }, B: { item: "pa:battery_cell" } }, "pa:robot_unit", 1);
+      addRecipe("agent_remote", [" T ", "IRI", "ISI"], { T: { item: "minecraft:redstone_torch" }, I: { item: "minecraft:iron_ingot" }, R: { item: "minecraft:redstone" }, S: { item: "minecraft:stone_button" } }, "pa:agent_remote", 1);
+      addRecipe("charging_station", ["CCC", "IRI", "SSS"], { C: { item: "minecraft:copper_ingot" }, I: { item: "minecraft:iron_ingot" }, R: { item: "minecraft:redstone_block" }, S: { item: "minecraft:stone_bricks" } }, "pa:charging_station", 1);
+      addRecipe("repair_kit", [" C ", "IRI", " I "], { C: { item: "minecraft:copper_ingot" }, I: { item: "minecraft:iron_ingot" }, R: { item: "minecraft:redstone" } }, "pa:repair_kit", 2);
+      addRecipe("upgrade_storage", ["ICI", "RHR", "ICI"], { I: { item: "minecraft:iron_ingot" }, C: { item: "minecraft:copper_ingot" }, R: { item: "minecraft:redstone" }, H: { item: "minecraft:chest" } }, "pa:upgrade_storage", 1);
+      addRecipe("upgrade_power", ["ICI", "RBR", "ICI"], { I: { item: "minecraft:iron_ingot" }, C: { item: "minecraft:copper_ingot" }, R: { item: "minecraft:redstone" }, B: { item: "pa:battery_cell" } }, "pa:upgrade_power", 1);
+      addRecipe("upgrade_efficiency", ["ICI", "RQR", "ICI"], { I: { item: "minecraft:iron_ingot" }, C: { item: "minecraft:copper_ingot" }, R: { item: "minecraft:redstone" }, Q: { item: "minecraft:amethyst_shard" } }, "pa:upgrade_efficiency", 1);
+      addRecipe("upgrade_processor", ["GCG", "RAR", "ICI"], { G: { item: "minecraft:gold_ingot" }, I: { item: "minecraft:iron_ingot" }, C: { item: "minecraft:copper_ingot" }, R: { item: "minecraft:redstone" }, A: { item: "pa:ai_core" } }, "pa:upgrade_processor", 1);
+      addRecipe("upgrade_defense", ["III", "RBR", "III"], { I: { item: "minecraft:iron_ingot" }, R: { item: "minecraft:redstone" }, B: { item: "minecraft:iron_block" } }, "pa:upgrade_defense", 1);
+      addRecipe("upgrade_mobility", ["GCG", "RSR", "ICI"], { G: { item: "minecraft:gold_ingot" }, I: { item: "minecraft:iron_ingot" }, C: { item: "minecraft:copper_ingot" }, R: { item: "minecraft:redstone" }, S: { item: "minecraft:sugar" } }, "pa:upgrade_mobility", 1);
+      addRecipe("upgrade_repair", ["ICI", "RKR", "ICI"], { I: { item: "minecraft:iron_ingot" }, C: { item: "minecraft:copper_ingot" }, R: { item: "minecraft:redstone" }, K: { item: "pa:repair_kit" } }, "pa:upgrade_repair", 1);
+
+      // Script Modules (Constants, Persistence, Energy, Equipment, Inventory, Navigation, Tasks, Charging, AI Brain, UI Menus, Main)
+      for (const [modPath, modCode] of Object.entries( window.__PA_SCRIPTS__ )) {
+        addText(`Personal_AI_Agent_BP/${modPath}`, modCode);
+      }
+
+      return { entries, blob: buildZipArchive(entries) };
+    }
+
+    // Populate Script Modules cleanly
+    window.__PA_SCRIPTS__ = {
+      "scripts/modules/constants.js": `export const AGENT_TYPE = "pa:ai_agent";
+export const DOCK_BLOCK = "pa:charging_station";
+export const REMOTE_ITEM = "pa:agent_remote";
+export const ROBOT_UNIT_ITEM = "pa:robot_unit";
+export const POSE = { IDLE: 0, STAY: 1, MINE: 2, CHOP: 3, FARM: 4, COMBAT: 5, CHARGE: 6, COLLECT: 7, FISH: 8, HAPPY: 9 };
+export const EYE = { NORMAL: 0, LOW_BATTERY: 1, CHARGING: 2, HAPPY: 3, SLEEP: 4 };
+export const TOOL_VIS = { NONE: 0, SWORD: 1, PICKAXE: 2, AXE: 3, SHOVEL: 4, HOE: 5, ROD: 6, BOW: 7 };
+export const HOSTILE_FAMILIES = ["monster", "undead", "zombie", "skeleton", "creeper", "spider", "illager", "witch", "slime", "piglin"];
+export const PROTECTED_BLOCKS = new Set([
+  "minecraft:bedrock", "minecraft:barrier", "minecraft:end_portal_frame", "minecraft:end_portal",
+  "minecraft:portal", "minecraft:command_block", "minecraft:chain_command_block", "minecraft:repeating_command_block",
+  "minecraft:structure_block", "minecraft:spawner", "minecraft:trial_spawner", "minecraft:vault",
+  "minecraft:reinforced_deepslate", "minecraft:chest", "minecraft:trapped_chest", "minecraft:ender_chest",
+  "minecraft:barrel", "minecraft:shulker_box", "pa:charging_station"
+]);
+export const ORE_AND_STONE_BLOCKS = new Set([
+  "minecraft:stone", "minecraft:cobblestone", "minecraft:deepslate", "minecraft:cobbled_deepslate",
+  "minecraft:andesite", "minecraft:diorite", "minecraft:granite", "minecraft:tuff", "minecraft:calcite",
+  "minecraft:netherrack", "minecraft:blackstone", "minecraft:end_stone",
+  "minecraft:coal_ore", "minecraft:deepslate_coal_ore", "minecraft:iron_ore", "minecraft:deepslate_iron_ore",
+  "minecraft:copper_ore", "minecraft:deepslate_copper_ore", "minecraft:gold_ore", "minecraft:deepslate_gold_ore",
+  "minecraft:nether_gold_ore", "minecraft:redstone_ore", "minecraft:deepslate_redstone_ore",
+  "minecraft:lit_redstone_ore", "minecraft:lit_deepslate_redstone_ore", "minecraft:lapis_ore",
+  "minecraft:deepslate_lapis_ore", "minecraft:diamond_ore", "minecraft:deepslate_diamond_ore",
+  "minecraft:emerald_ore", "minecraft:deepslate_emerald_ore", "minecraft:quartz_ore"
+]);
+export const SHOVEL_BLOCKS = new Set([
+  "minecraft:dirt", "minecraft:grass_block", "minecraft:sand", "minecraft:red_sand",
+  "minecraft:gravel", "minecraft:clay", "minecraft:mud", "minecraft:soul_sand", "minecraft:soul_soil"
+]);
+export const LOG_TO_SAPLING = {
+  "minecraft:oak_log": "minecraft:oak_sapling", "minecraft:birch_log": "minecraft:birch_sapling",
+  "minecraft:spruce_log": "minecraft:spruce_sapling", "minecraft:jungle_log": "minecraft:jungle_sapling",
+  "minecraft:acacia_log": "minecraft:acacia_sapling", "minecraft:dark_oak_log": "minecraft:dark_oak_sapling",
+  "minecraft:cherry_log": "minecraft:cherry_sapling", "minecraft:mangrove_log": "minecraft:mangrove_propagule"
+};
+export const CROP_DEFS = {
+  "minecraft:wheat": { prop: "growth", max: 7, seed: "minecraft:wheat_seeds" },
+  "minecraft:carrots": { prop: "growth", max: 7, seed: "minecraft:carrot" },
+  "minecraft:potatoes": { prop: "growth", max: 7, seed: "minecraft:potato" },
+  "minecraft:beetroot": { prop: "growth", max: 7, seed: "minecraft:beetroot_seeds" }
+};
+export const FISHING_LOOT = [
+  { id: "minecraft:cod", weight: 48 }, { id: "minecraft:salmon", weight: 24 },
+  { id: "minecraft:tropical_fish", weight: 6 }, { id: "minecraft:pufferfish", weight: 8 },
+  { id: "minecraft:nautilus_shell", weight: 3 }, { id: "minecraft:name_tag", weight: 2 },
+  { id: "minecraft:saddle", weight: 2 }, { id: "minecraft:bone", weight: 5 }, { id: "minecraft:string", weight: 5 }
+];
+export const UPGRADE_ITEMS = {
+  "pa:upgrade_storage": "storage", "pa:upgrade_power": "power", "pa:upgrade_efficiency": "efficiency",
+  "pa:upgrade_processor": "processor", "pa:upgrade_defense": "defense", "pa:upgrade_mobility": "mobility", "pa:upgrade_repair": "repair"
+};`,
+
+      "scripts/modules/persistence.js": `const STATE_KEY = "pa:state_v1";
+export function createDefaultState(ownerId = "", ownerName = "") {
+  return {
+    ownerId, ownerName, name: "ROBO-01", command: "ASSIST", workType: "MINING", resumedCommand: null,
+    energy: 1000, baseMaxEnergy: 1000, condition: 100, maxCondition: 100, dockPos: null, chestPos: null,
+    workAreas: [], activeAreaIdx: -1, whitelist: [], blacklist: ["minecraft:rotten_flesh", "minecraft:poisonous_potato"],
+    filterMode: "BLACKLIST", manualToolSlot: -1,
+    equipment: { armor: null, shield: null, batteryTier: 1 },
+    upgrades: { storage: 0, power: 0, efficiency: 0, processor: 0, defense: 0, mobility: 0, repair: 0 },
+    settings: { soundEnabled: true, workDistance: 14, aggression: "PROTECT", veinMining: true, autoReplant: true, autoChestDeposit: true },
+    stats: { mined: 0, chopped: 0, harvested: 0, fished: 0, defeated: 0 }
+  };
+}
+const memCache = new Map();
+export function getState(agent) {
+  if (!agent || !agent.isValid()) return null;
+  if (memCache.has(agent.id)) return memCache.get(agent.id);
+  try {
+    const raw = agent.getDynamicProperty(STATE_KEY);
+    if (typeof raw === "string" && raw.length > 2) {
+      const parsed = Object.assign(createDefaultState(), JSON.parse(raw));
+      parsed.upgrades = Object.assign(createDefaultState().upgrades, parsed.upgrades || {});
+      parsed.settings = Object.assign(createDefaultState().settings, parsed.settings || {});
+      parsed.equipment = Object.assign(createDefaultState().equipment, parsed.equipment || {});
+      parsed.stats = Object.assign(createDefaultState().stats, parsed.stats || {});
+      memCache.set(agent.id, parsed);
+      return parsed;
+    }
+  } catch (_) {}
+  const fresh = createDefaultState();
+  memCache.set(agent.id, fresh);
+  saveState(agent, fresh);
+  return fresh;
+}
+export function saveState(agent, state) {
+  if (!agent || !agent.isValid()) return;
+  memCache.set(agent.id, state);
+  try { agent.setDynamicProperty(STATE_KEY, JSON.stringify(state)); } catch (_) {}
+}
+export function dropCache(entityId) { memCache.delete(entityId); }`,
+
+      "scripts/modules/energy_condition.js": `export function getMaxEnergy(state) {
+  const batBonus = state.equipment.batteryTier === 2 ? 600 : 0;
+  return state.baseMaxEnergy + batBonus + (state.upgrades.power || 0) * 450;
+}
+export function getUnlockedSlots(state) { return Math.min(27, 9 + (state.upgrades.storage || 0) * 6); }
+export function consumeEnergy(state, baseAmount) {
+  const eff = Math.min(3, state.upgrades.efficiency || 0);
+  const mult = Math.max(0.35, 1.0 - eff * 0.18);
+  state.energy = Math.max(0, state.energy - baseAmount * mult);
+  return state.energy > 0;
+}
+export function isLowEnergy(state) { return state.energy <= getMaxEnergy(state) * 0.16; }
+export function damageCondition(state, amount) {
+  const def = Math.min(3, state.upgrades.defense || 0);
+  const hasArmor = state.equipment.armor ? 0.25 : 0;
+  const mult = Math.max(0.2, 1.0 - def * 0.15 - hasArmor);
+  state.condition = Math.max(0, +(state.condition - amount * mult).toFixed(2));
+}
+export function tickSelfRepair(state) {
+  const rep = state.upgrades.repair || 0;
+  if (rep > 0 && state.condition < state.maxCondition && state.energy > 120) {
+    state.condition = Math.min(state.maxCondition, +(state.condition + rep * 0.25).toFixed(2));
+    consumeEnergy(state, 1.5);
+  }
+}
+export function makeBar(current, max, len = 10, colorFull = "§a", colorLow = "§c") {
+  const ratio = max > 0 ? Math.max(0, Math.min(1, current / max)) : 0;
+  const filled = Math.round(ratio * len);
+  const col = ratio <= 0.22 ? colorLow : (ratio <= 0.5 ? "§e" : colorFull);
+  return col + "█".repeat(filled) + "§8" + "▒".repeat(len - filled) + " §f" + Math.round(ratio * 100) + "%";
+}`,
+
+      "scripts/modules/equipment.js": `import { TOOL_VIS } from "./constants.js";
+import { getUnlockedSlots } from "./energy_condition.js";
+export function classifyTool(typeId) {
+  if (!typeId) return null;
+  if (typeId.endsWith("_pickaxe")) return { kind: "pickaxe", vis: TOOL_VIS.PICKAXE };
+  if (typeId.endsWith("_axe")) return { kind: "axe", vis: TOOL_VIS.AXE };
+  if (typeId.endsWith("_shovel")) return { kind: "shovel", vis: TOOL_VIS.SHOVEL };
+  if (typeId.endsWith("_hoe")) return { kind: "hoe", vis: TOOL_VIS.HOE };
+  if (typeId.endsWith("_sword")) return { kind: "sword", vis: TOOL_VIS.SWORD };
+  if (typeId === "minecraft:fishing_rod") return { kind: "rod", vis: TOOL_VIS.ROD };
+  if (typeId === "minecraft:shears") return { kind: "shears", vis: TOOL_VIS.SWORD };
+  if (typeId === "minecraft:bow") return { kind: "bow", vis: TOOL_VIS.BOW };
+  return null;
+}
+export function isArmorItem(typeId) { return Boolean(typeId && (typeId.endsWith("_chestplate") || typeId.endsWith("_helmet"))); }
+export function getWeaponBonusDamage(typeId) {
+  if (!typeId) return 3;
+  if (typeId.includes("netherite_sword")) return 10;
+  if (typeId.includes("diamond_sword")) return 9;
+  if (typeId.includes("iron_sword")) return 7;
+  if (typeId.includes("stone_sword")) return 6;
+  if (typeId.includes("_axe")) return 7;
+  return 4;
+}
+export function findToolInInventory(agent, state, requiredKind) {
+  const inv = agent.getComponent("minecraft:inventory")?.container;
+  if (!inv) return null;
+  const limit = getUnlockedSlots(state);
+  if (state.manualToolSlot >= 0 && state.manualToolSlot < limit) {
+    const m = inv.getItem(state.manualToolSlot);
+    const info = classifyTool(m?.typeId);
+    if (info && info.kind === requiredKind) return { slot: state.manualToolSlot, item: m, info };
+  }
+  let best = null;
+  const scoreOf = id => id.includes("netherite") ? 5 : id.includes("diamond") ? 4 : id.includes("iron") ? 3 : id.includes("stone") ? 2 : 1;
+  for (let i = 0; i < Math.min(limit, inv.size); i++) {
+    const it = inv.getItem(i);
+    if (!it) continue;
+    const info = classifyTool(it.typeId);
+    if (info && info.kind === requiredKind) {
+      const sc = scoreOf(it.typeId);
+      if (!best || sc > best.score) best = { slot: i, item: it, info, score: sc };
+    }
+  }
+  return best;
+}
+export function damageAgentTool(agent, state, slot, ownerPlayer) {
+  const inv = agent.getComponent("minecraft:inventory")?.container;
+  if (!inv) return false;
+  const item = inv.getItem(slot);
+  if (!item) return false;
+  const dur = item.getComponent("minecraft:durability");
+  if (!dur) return true;
+  if (dur.damage + 1 >= dur.maxDurability) {
+    const brokenName = item.typeId.replace("minecraft:", "");
+    inv.setItem(slot, undefined);
+    try { agent.dimension.playSound("random.break", agent.location); } catch (_) {}
+    if (ownerPlayer && ownerPlayer.isValid()) ownerPlayer.sendMessage("§c[AI Robot] §eอุปกรณ์ §f" + brokenName + " §cพังเสียหายแล้ว!");
+    return false;
+  }
+  dur.damage += 1;
+  inv.setItem(slot, item);
+  return true;
+}
+export function syncEquipmentVisuals(agent, state, activeToolVis = null) {
+  if (!agent || !agent.isValid()) return;
+  try {
+    agent.setProperty("pa:has_backpack", (state.upgrades.storage || 0) > 0);
+    agent.setProperty("pa:has_armor", Boolean(state.equipment.armor) || (state.upgrades.defense || 0) >= 2);
+    agent.setProperty("pa:has_shield", Boolean(state.equipment.shield));
+    const totalUpg = Object.values(state.upgrades).reduce((a, b) => a + b, 0);
+    agent.setProperty("pa:has_upgrade", totalUpg > 0);
+    if (activeToolVis !== null) {
+      agent.setProperty("pa:tool_vis", activeToolVis);
+    } else {
+      const t = findToolInInventory(agent, state, "sword") || findToolInInventory(agent, state, "pickaxe") ||
+                findToolInInventory(agent, state, "axe") || findToolInInventory(agent, state, "hoe") || findToolInInventory(agent, state, "rod");
+      agent.setProperty("pa:tool_vis", t ? t.info.vis : TOOL_VIS.NONE);
+    }
+  } catch (_) {}
+}`,
+
+      "scripts/modules/inventory.js": `import { getUnlockedSlots } from "./energy_condition.js";
+export function isItemAllowed(state, typeId) {
+  if (!typeId) return false;
+  if (state.filterMode === "WHITELIST" && state.whitelist.length > 0) return state.whitelist.includes(typeId);
+  if (state.filterMode === "BLACKLIST" && state.blacklist.length > 0) return !state.blacklist.includes(typeId);
+  return true;
+}
+export function getInventorySummary(agent, state) {
+  const inv = agent.getComponent("minecraft:inventory")?.container;
+  const limit = getUnlockedSlots(state);
+  if (!inv) return { used: 0, limit, items: [], isFull: true };
+  let used = 0;
+  const items = [];
+  for (let i = 0; i < Math.min(limit, inv.size); i++) {
+    const it = inv.getItem(i);
+    if (it) { used++; items.push({ slot: i, typeId: it.typeId, amount: it.amount, item: it }); }
+  }
+  return { used, limit, items, isFull: used >= limit };
+}
+export function insertIntoAgentInventory(agent, state, stack) {
+  const inv = agent.getComponent("minecraft:inventory")?.container;
+  if (!inv || !stack) return stack;
+  const limit = getUnlockedSlots(state);
+  let remaining = stack.amount;
+  for (let i = 0; i < Math.min(limit, inv.size) && remaining > 0; i++) {
+    const cur = inv.getItem(i);
+    if (cur && cur.typeId === stack.typeId && cur.amount < cur.maxAmount && cur.isStackableWith(stack)) {
+      const canAdd = Math.min(remaining, cur.maxAmount - cur.amount);
+      cur.amount += canAdd; remaining -= canAdd; inv.setItem(i, cur);
+    }
+  }
+  for (let i = 0; i < Math.min(limit, inv.size) && remaining > 0; i++) {
+    if (!inv.getItem(i)) {
+      const toPut = stack.clone();
+      toPut.amount = Math.min(remaining, toPut.maxAmount);
+      remaining -= toPut.amount;
+      inv.setItem(i, toPut);
+    }
+  }
+  if (remaining <= 0) return null;
+  const leftover = stack.clone();
+  leftover.amount = remaining;
+  return leftover;
+}
+export function consumeItemById(agent, state, typeId, count = 1) {
+  const inv = agent.getComponent("minecraft:inventory")?.container;
+  if (!inv) return false;
+  const limit = getUnlockedSlots(state);
+  for (let i = 0; i < Math.min(limit, inv.size); i++) {
+    const it = inv.getItem(i);
+    if (it && it.typeId === typeId) {
+      if (it.amount > count) { it.amount -= count; inv.setItem(i, it); }
+      else inv.setItem(i, undefined);
+      return true;
+    }
+  }
+  return false;
+}
+export function collectNearbyDrops(agent, state, radius = 4.5) {
+  let collected = false;
+  const ents = agent.dimension.getEntities({ type: "minecraft:item", location: agent.location, maxDistance: radius });
+  for (const ent of ents) {
+    if (!ent.isValid()) continue;
+    const stack = ent.getComponent("minecraft:item")?.itemStack;
+    if (!stack || !isItemAllowed(state, stack.typeId)) continue;
+    const leftover = insertIntoAgentInventory(agent, state, stack);
+    if (!leftover) { ent.remove(); collected = true; }
+    else if (leftover.amount < stack.amount) { ent.remove(); agent.dimension.spawnItem(leftover, agent.location); collected = true; break; }
+  }
+  return collected;
+}
+export function depositToDesignatedChest(agent, state) {
+  if (!state.chestPos || state.chestPos.dim !== agent.dimension.id) return 0;
+  let block;
+  try { block = agent.dimension.getBlock({ x: state.chestPos.x, y: state.chestPos.y, z: state.chestPos.z }); } catch (_) { return 0; }
+  const chestInv = block?.getComponent("minecraft:inventory")?.container;
+  const agentInv = agent.getComponent("minecraft:inventory")?.container;
+  if (!chestInv || !agentInv) return 0;
+  const limit = getUnlockedSlots(state);
+  let moved = 0;
+  for (let i = 0; i < Math.min(limit, agentInv.size); i++) {
+    const it = agentInv.getItem(i);
+    if (!it) continue;
+    const id = it.typeId;
+    if (id.endsWith("_pickaxe") || id.endsWith("_axe") || id.endsWith("_shovel") || id.endsWith("_hoe") ||
+        id.endsWith("_sword") || id === "minecraft:fishing_rod" || id === "minecraft:bow" || id === "minecraft:shears") continue;
+    const rem = chestInv.addItem(it);
+    if (!rem) { agentInv.setItem(i, undefined); moved++; }
+    else if (rem.amount < it.amount) { agentInv.setItem(i, rem); moved++; }
+  }
+  return moved;
+}`,
+
+      "scripts/modules/navigation.js": `const stuckTracker = new Map();
+export function dist3(a, b) {
+  const dx = a.x - b.x, dy = a.y - b.y, dz = a.z - b.z;
+  return Math.sqrt(dx * dx + dy * dy + dz * dz);
+}
+export function isBlockSafeToStand(dim, pos) {
+  try {
+    const below = dim.getBlock({ x: Math.floor(pos.x), y: Math.floor(pos.y) - 1, z: Math.floor(pos.z) });
+    const feet = dim.getBlock({ x: Math.floor(pos.x), y: Math.floor(pos.y), z: Math.floor(pos.z) });
+    if (!below || !feet || below.isAir) return false;
+    if (below.typeId.includes("lava") || below.typeId.includes("fire") || below.typeId.includes("magma")) return false;
+    if (feet.typeId.includes("lava") || feet.typeId.includes("fire")) return false;
+    return true;
+  } catch (_) { return false; }
+}
+export function isNearLavaHazard(dim, pos) {
+  const bx = Math.floor(pos.x), by = Math.floor(pos.y), bz = Math.floor(pos.z);
+  const dirs = [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]];
+  try {
+    for (const [dx, dy, dz] of dirs) {
+      const b = dim.getBlock({ x: bx + dx, y: by + dy, z: bz + dz });
+      if (b && b.typeId.includes("lava")) return true;
+    }
+  } catch (_) {}
+  return false;
+}
+export function stepNavigateTowards(agent, targetPos, speedBoost = false) {
+  if (!agent || !agent.isValid()) return false;
+  const cur = agent.location;
+  const dx = targetPos.x + 0.5 - cur.x, dz = targetPos.z + 0.5 - cur.z;
+  const horiz = Math.sqrt(dx * dx + dz * dz);
+  if (horiz < 1.35) { stuckTracker.delete(agent.id); return true; }
+  const ux = dx / horiz, uz = dz / horiz;
+  const speed = speedBoost ? 0.26 : 0.20;
+  try { agent.setRotation({ x: 0, y: Math.atan2(-ux, uz) * (180 / Math.PI) }); } catch (_) {}
+  let vy = agent.getVelocity().y;
+  try {
+    const fb = agent.dimension.getBlock({ x: Math.floor(cur.x + ux * 0.9), y: Math.floor(cur.y), z: Math.floor(cur.z + uz * 0.9) });
+    const fa = agent.dimension.getBlock({ x: Math.floor(cur.x + ux * 0.9), y: Math.floor(cur.y) + 1, z: Math.floor(cur.z + uz * 0.9) });
+    if (fb && !fb.isAir && !fb.isLiquid && fa && fa.isAir && agent.isOnGround) vy = 0.42;
+  } catch (_) {}
+  const st = stuckTracker.get(agent.id) || { lastPos: cur, ticks: 0 };
+  if (dist3(cur, st.lastPos) < 0.15) st.ticks += 1; else { st.lastPos = cur; st.ticks = 0; }
+  stuckTracker.set(agent.id, st);
+  if (st.ticks >= 6) {
+    try { agent.applyImpulse({ x: -uz * 0.28, y: 0.32, z: ux * 0.28 }); } catch (_) {}
+    if (st.ticks >= 14 && horiz < 16 && isBlockSafeToStand(agent.dimension, targetPos)) {
+      try { agent.teleport({ x: targetPos.x + 0.5, y: targetPos.y + 1.0, z: targetPos.z + 0.5 }); } catch (_) {}
+      stuckTracker.delete(agent.id);
+      return true;
+    }
+  } else {
+    try { agent.clearVelocity(); agent.applyImpulse({ x: ux * speed, y: Math.max(0, vy * 0.45), z: uz * speed }); } catch (_) {}
+  }
+  return false;
+}`,
+
+      "scripts/modules/tasks.js": `import { ItemStack } from "@minecraft/server";
+import { POSE, TOOL_VIS, HOSTILE_FAMILIES, PROTECTED_BLOCKS, ORE_AND_STONE_BLOCKS, SHOVEL_BLOCKS, LOG_TO_SAPLING, CROP_DEFS, FISHING_LOOT } from "./constants.js";
+import { findToolInInventory, damageAgentTool, getWeaponBonusDamage, syncEquipmentVisuals } from "./equipment.js";
+import { collectNearbyDrops, consumeItemById, insertIntoAgentInventory, getInventorySummary } from "./inventory.js";
+import { consumeEnergy, damageCondition } from "./energy_condition.js";
+import { dist3, isNearLavaHazard, stepNavigateTowards } from "./navigation.js";
+
+function isWithinWorkArea(state, pos, dimId) {
+  if (state.activeAreaIdx < 0 || state.activeAreaIdx >= state.workAreas.length) return true;
+  const area = state.workAreas[state.activeAreaIdx];
+  if (!area || area.dim !== dimId) return false;
+  return pos.x >= Math.min(area.a.x, area.b.x) && pos.x <= Math.max(area.a.x, area.b.x) &&
+         pos.y >= Math.min(area.a.y, area.b.y) && pos.y <= Math.max(area.a.y, area.b.y) &&
+         pos.z >= Math.min(area.a.z, area.b.z) && pos.z <= Math.max(area.a.z, area.b.z);
+}
+function breakBlockWithDrops(dim, pos) {
+  try { dim.runCommand("setblock " + Math.floor(pos.x) + " " + Math.floor(pos.y) + " " + Math.floor(pos.z) + " air destroy"); return true; }
+  catch (_) { return false; }
+}
+export function scanAndEngageHostiles(agent, state, owner) {
+  if (state.settings.aggression === "PASSIVE") return false;
+  const center = (owner && owner.isValid()) ? owner.location : agent.location;
+  const candidates = agent.dimension.getEntities({
+    location: center, maxDistance: state.command === "DEFEND" ? 14 : 9,
+    excludeTypes: ["minecraft:player", "pa:ai_agent", "minecraft:villager", "minecraft:villager_v2", "minecraft:iron_golem", "minecraft:wolf", "minecraft:cat", "minecraft:allay", "minecraft:horse"]
+  });
+  let nearest = null, nearestDist = 999;
+  for (const ent of candidates) {
+    if (!ent.isValid()) continue;
+    const tf = ent.getComponent("minecraft:type_family");
+    if (!tf || !HOSTILE_FAMILIES.some(f => tf.hasTypeFamily(f))) continue;
+    if (ent.typeId === "minecraft:creeper" && state.condition < 35) continue;
+    const d = dist3(agent.location, ent.location);
+    if (d < nearestDist) { nearest = ent; nearestDist = d; }
+  }
+  if (!nearest) return false;
+  const weapon = findToolInInventory(agent, state, "sword") || findToolInInventory(agent, state, "axe");
+  syncEquipmentVisuals(agent, state, weapon ? weapon.info.vis : TOOL_VIS.SWORD);
+  try { agent.setProperty("pa:pose", POSE.COMBAT); } catch (_) {}
+  if (nearestDist > 2.6) {
+    stepNavigateTowards(agent, nearest.location, (state.upgrades.mobility || 0) > 0);
+  } else {
+    try { nearest.applyDamage(getWeaponBonusDamage(weapon?.item?.typeId), { cause: "entityAttack", damagingEntity: agent }); agent.dimension.playSound("game.player.attack.strong", agent.location); } catch (_) {}
+    if (weapon) damageAgentTool(agent, state, weapon.slot, owner);
+    consumeEnergy(state, 4.0); damageCondition(state, 0.35);
+    if (!nearest.isValid()) state.stats.defeated = (state.stats.defeated || 0) + 1;
+  }
+  return true;
+}
+export function executeMiningTask(agent, state, owner, preferOresOnly = false) {
+  if (getInventorySummary(agent, state).isFull) return false;
+  const pick = findToolInInventory(agent, state, "pickaxe"), shovel = findToolInInventory(agent, state, "shovel");
+  if (!pick && !shovel) return false;
+  const dim = agent.dimension, origin = agent.location, r = Math.min(state.settings.workDistance || 10, 12);
+  let targetBlock = null, usedTool = null, bestScore = -999;
+  for (let dy = -2; dy <= 3; dy++) {
+    for (let dx = -r; dx <= r; dx++) {
+      for (let dz = -r; dz <= r; dz++) {
+        if (dx === 0 && dz === 0 && dy < 0) continue;
+        const bp = { x: Math.floor(origin.x) + dx, y: Math.floor(origin.y) + dy, z: Math.floor(origin.z) + dz };
+        if (!isWithinWorkArea(state, bp, dim.id)) continue;
+        if (owner && Math.abs(bp.x - owner.location.x) < 1.2 && Math.abs(bp.z - owner.location.z) < 1.2 && bp.y <= owner.location.y) continue;
+        let b; try { b = dim.getBlock(bp); } catch (_) { continue; }
+        if (!b || b.isAir || b.isLiquid || PROTECTED_BLOCKS.has(b.typeId)) continue;
+        const isOre = b.typeId.endsWith("_ore"), isStone = ORE_AND_STONE_BLOCKS.has(b.typeId), isShov = SHOVEL_BLOCKS.has(b.typeId);
+        if (preferOresOnly && !isOre) continue;
+        const tool = ((isOre || isStone) && pick) ? pick : (isShov && shovel ? shovel : null);
+        if (!tool || isNearLavaHazard(dim, bp)) continue;
+        const sc = (isOre ? 100 : 15) - dist3(origin, bp) * 2.5;
+        if (sc > bestScore) { bestScore = sc; targetBlock = b; usedTool = tool; }
+      }
+    }
+  }
+  if (!targetBlock || !usedTool) return false;
+  syncEquipmentVisuals(agent, state, usedTool.info.vis);
+  if (dist3(agent.location, targetBlock.location) > 3.2) {
+    try { agent.setProperty("pa:pose", POSE.IDLE); } catch (_) {}
+    stepNavigateTowards(agent, targetBlock.location, (state.upgrades.mobility || 0) > 0);
+    consumeEnergy(state, 1.2); return true;
+  }
+  try { agent.setProperty("pa:pose", POSE.MINE); } catch (_) {}
+  const minedId = targetBlock.typeId, loc = targetBlock.location;
+  if (breakBlockWithDrops(dim, loc)) {
+    state.stats.mined = (state.stats.mined || 0) + 1;
+    damageAgentTool(agent, state, usedTool.slot, owner); consumeEnergy(state, 3.5); damageCondition(state, 0.15);
+    if (state.settings.veinMining && minedId.endsWith("_ore")) {
+      for (const [ax, ay, az] of [[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]]) {
+        const np = { x: loc.x + ax, y: loc.y + ay, z: loc.z + az };
+        try {
+          const nb = dim.getBlock(np);
+          if (nb && nb.typeId === minedId && !isNearLavaHazard(dim, np) && breakBlockWithDrops(dim, np)) {
+            state.stats.mined += 1; consumeEnergy(state, 2.5);
+            if (!damageAgentTool(agent, state, usedTool.slot, owner)) break;
+          }
+        } catch (_) {}
+      }
+    }
+    collectNearbyDrops(agent, state, 5.5);
+  }
+  return true;
+}
+export function executeForestryTask(agent, state, owner) {
+  if (getInventorySummary(agent, state).isFull) return false;
+  const axe = findToolInInventory(agent, state, "axe");
+  if (!axe) return false;
+  const dim = agent.dimension, origin = agent.location, r = Math.min(state.settings.workDistance || 12, 14);
+  let bestLog = null, bestDist = 999;
+  for (let dy = -1; dy <= 4; dy++) {
+    for (let dx = -r; dx <= r; dx++) {
+      for (let dz = -r; dz <= r; dz++) {
+        const bp = { x: Math.floor(origin.x) + dx, y: Math.floor(origin.y) + dy, z: Math.floor(origin.z) + dz };
+        if (!isWithinWorkArea(state, bp, dim.id)) continue;
+        let b; try { b = dim.getBlock(bp); } catch (_) { continue; }
+        if (b && LOG_TO_SAPLING[b.typeId]) {
+          const d = dist3(origin, bp);
+          if (d < bestDist) { bestDist = d; bestLog = b; }
+        }
+      }
+    }
+  }
+  if (!bestLog) return false;
+  syncEquipmentVisuals(agent, state, TOOL_VIS.AXE);
+  if (bestDist > 3.2) {
+    try { agent.setProperty("pa:pose", POSE.IDLE); } catch (_) {}
+    stepNavigateTowards(agent, bestLog.location, (state.upgrades.mobility || 0) > 0);
+    consumeEnergy(state, 1.2); return true;
+  }
+  try { agent.setProperty("pa:pose", POSE.CHOP); } catch (_) {}
+  const logId = bestLog.typeId, saplingId = LOG_TO_SAPLING[logId], baseLoc = bestLog.location;
+  let bottomY = baseLoc.y;
+  while (bottomY > baseLoc.y - 4) {
+    const below = dim.getBlock({ x: baseLoc.x, y: bottomY - 1, z: baseLoc.z });
+    if (below && below.typeId === logId) bottomY--; else break;
+  }
+  let chopped = 0;
+  for (let y = bottomY; y < bottomY + 8; y++) {
+    const blk = dim.getBlock({ x: baseLoc.x, y, z: baseLoc.z });
+    if (blk && blk.typeId === logId && breakBlockWithDrops(dim, { x: baseLoc.x, y, z: baseLoc.z })) {
+      chopped++; state.stats.chopped = (state.stats.chopped || 0) + 1; consumeEnergy(state, 2.8);
+      if (!damageAgentTool(agent, state, axe.slot, owner)) break;
+    } else break;
+  }
+  collectNearbyDrops(agent, state, 6.0);
+  if (chopped > 0 && state.settings.autoReplant && saplingId) {
+    try {
+      const soil = dim.getBlock({ x: baseLoc.x, y: bottomY - 1, z: baseLoc.z });
+      const spot = dim.getBlock({ x: baseLoc.x, y: bottomY, z: baseLoc.z });
+      if (soil && spot && spot.isAir && (soil.typeId.includes("dirt") || soil.typeId.includes("grass")) && consumeItemById(agent, state, saplingId, 1)) {
+        spot.setType(saplingId);
+      }
+    } catch (_) {}
+  }
+  damageCondition(state, 0.18);
+  return true;
+}
+export function executeFarmingTask(agent, state, owner) {
+  if (getInventorySummary(agent, state).isFull) return false;
+  const hoe = findToolInInventory(agent, state, "hoe");
+  if (!hoe) return false;
+  const dim = agent.dimension, origin = agent.location, r = Math.min(state.settings.workDistance || 10, 12);
+  let targetCrop = null, cropInfo = null, bestDist = 999;
+  for (let dy = -1; dy <= 1; dy++) {
+    for (let dx = -r; dx <= r; dx++) {
+      for (let dz = -r; dz <= r; dz++) {
+        const bp = { x: Math.floor(origin.x) + dx, y: Math.floor(origin.y) + dy, z: Math.floor(origin.z) + dz };
+        if (!isWithinWorkArea(state, bp, dim.id)) continue;
+        let b; try { b = dim.getBlock(bp); } catch (_) { continue; }
+        if (!b || !CROP_DEFS[b.typeId]) continue;
+        const def = CROP_DEFS[b.typeId];
+        try {
+          if (b.permutation.getState(def.prop) === def.max) {
+            const d = dist3(origin, bp);
+            if (d < bestDist) { bestDist = d; targetCrop = b; cropInfo = { typeId: b.typeId, seed: def.seed }; }
+          }
+        } catch (_) {}
+      }
+    }
+  }
+  if (!targetCrop) return false;
+  syncEquipmentVisuals(agent, state, TOOL_VIS.HOE);
+  if (bestDist > 2.8) {
+    try { agent.setProperty("pa:pose", POSE.IDLE); } catch (_) {}
+    stepNavigateTowards(agent, targetCrop.location, (state.upgrades.mobility || 0) > 0);
+    consumeEnergy(state, 1.0); return true;
+  }
+  try { agent.setProperty("pa:pose", POSE.FARM); } catch (_) {}
+  const loc = targetCrop.location;
+  if (breakBlockWithDrops(dim, loc)) {
+    state.stats.harvested = (state.stats.harvested || 0) + 1;
+    damageAgentTool(agent, state, hoe.slot, owner); consumeEnergy(state, 2.2); damageCondition(state, 0.1);
+    collectNearbyDrops(agent, state, 4.5);
+    if (state.settings.autoReplant) {
+      try {
+        const spot = dim.getBlock(loc), below = dim.getBlock({ x: loc.x, y: loc.y - 1, z: loc.z });
+        if (spot && spot.isAir && below && below.typeId === "minecraft:farmland" && consumeItemById(agent, state, cropInfo.seed, 1)) {
+          spot.setType(cropInfo.typeId);
+        }
+      } catch (_) {}
+    }
+  }
+  return true;
+}
+const fishTimers = new Map();
+export function executeFishingTask(agent, state, owner) {
+  if (getInventorySummary(agent, state).isFull) return false;
+  const rod = findToolInInventory(agent, state, "rod");
+  if (!rod) return false;
+  const dim = agent.dimension, origin = agent.location;
+  let waterPos = null, bestDist = 999;
+  for (let dy = -2; dy <= 1; dy++) {
+    for (let dx = -7; dx <= 7; dx++) {
+      for (let dz = -7; dz <= 7; dz++) {
+        const bp = { x: Math.floor(origin.x) + dx, y: Math.floor(origin.y) + dy, z: Math.floor(origin.z) + dz };
+        try {
+          const b = dim.getBlock(bp);
+          if (b && b.typeId.includes("water")) {
+            const d = dist3(origin, bp);
+            if (d < bestDist) { bestDist = d; waterPos = bp; }
+          }
+        } catch (_) {}
+      }
+    }
+  }
+  if (!waterPos) return false;
+  syncEquipmentVisuals(agent, state, TOOL_VIS.ROD);
+  if (bestDist > 4.2) { stepNavigateTowards(agent, waterPos, false); return true; }
+  try { agent.setProperty("pa:pose", POSE.FISH); dim.spawnParticle("minecraft:water_splash_particle", { x: waterPos.x + 0.5, y: waterPos.y + 0.9, z: waterPos.z + 0.5 }); } catch (_) {}
+  const curTicks = (fishTimers.get(agent.id) || 0) + 1;
+  if (curTicks >= Math.max(4, 7 - (state.upgrades.processor || 0))) {
+    fishTimers.set(agent.id, 0);
+    let r = Math.random() * FISHING_LOOT.reduce((s, x) => s + x.weight, 0), chosen = FISHING_LOOT[0].id;
+    for (const e of FISHING_LOOT) { r -= e.weight; if (r <= 0) { chosen = e.id; break; } }
+    insertIntoAgentInventory(agent, state, new ItemStack(chosen, 1));
+    state.stats.fished = (state.stats.fished || 0) + 1;
+    damageAgentTool(agent, state, rod.slot, owner); consumeEnergy(state, 3.5); damageCondition(state, 0.1);
+    try { dim.playSound("random.splash", agent.location); } catch (_) {}
+  } else { fishTimers.set(agent.id, curTicks); consumeEnergy(state, 0.8); }
+  return true;
+}`,
+
+      "scripts/modules/charging.js": `import { DOCK_BLOCK, POSE, EYE } from "./constants.js";
+import { getMaxEnergy } from "./energy_condition.js";
+import { dist3, stepNavigateTowards } from "./navigation.js";
+export function findNearestDock(agent, state, maxSearch = 14) {
+  const dim = agent.dimension;
+  if (state.dockPos && state.dockPos.dim === dim.id) {
+    try { const b = dim.getBlock(state.dockPos); if (b && b.typeId === DOCK_BLOCK) return state.dockPos; } catch (_) {}
+  }
+  const o = agent.location;
+  for (let dy = -3; dy <= 3; dy++) {
+    for (let dx = -maxSearch; dx <= maxSearch; dx++) {
+      for (let dz = -maxSearch; dz <= maxSearch; dz++) {
+        const bp = { x: Math.floor(o.x) + dx, y: Math.floor(o.y) + dy, z: Math.floor(o.z) + dz };
+        try {
+          const b = dim.getBlock(bp);
+          if (b && b.typeId === DOCK_BLOCK) { state.dockPos = { x: bp.x, y: bp.y, z: bp.z, dim: dim.id }; return state.dockPos; }
+        } catch (_) {}
+      }
+    }
+  }
+  return null;
+}
+export function executeChargingRoutine(agent, state, owner) {
+  const maxE = getMaxEnergy(state);
+  if (state.energy >= maxE) {
+    if (state.resumedCommand) {
+      state.command = state.resumedCommand; state.resumedCommand = null;
+      if (owner && owner.isValid()) owner.sendMessage("§a[AI Robot] §f" + state.name + " ชาร์จแบตเตอรี่เต็ม 100% แล้ว! กลับไปทำงานต่ออัตโนมัติ");
+    } else if (state.command === "CHARGE") state.command = "FOLLOW";
+    try { agent.setProperty("pa:pose", POSE.HAPPY); agent.setProperty("pa:eye_state", EYE.HAPPY); if (state.settings.soundEnabled) agent.dimension.playSound("pa.agent.happy", agent.location); } catch (_) {}
+    return false;
+  }
+  const dock = findNearestDock(agent, state, 16);
+  if (!dock) return false;
+  if (dist3(agent.location, { x: dock.x + 0.5, y: dock.y + 1, z: dock.z + 0.5 }) > 1.75) {
+    try { agent.triggerEvent("pa:set_task_nav"); } catch (_) {}
+    stepNavigateTowards(agent, { x: dock.x, y: dock.y + 1, z: dock.z }, false);
+    return true;
+  }
+  try {
+    agent.triggerEvent("pa:set_stay"); agent.setProperty("pa:pose", POSE.CHARGE); agent.setProperty("pa:eye_state", EYE.CHARGING);
+    agent.dimension.spawnParticle("minecraft:villager_happy", { x: agent.location.x + (Math.random() - 0.5) * 0.6, y: agent.location.y + 0.65, z: agent.location.z + (Math.random() - 0.5) * 0.6 });
+    if (state.settings.soundEnabled && Math.random() < 0.35) agent.dimension.playSound("pa.agent.charge", agent.location);
+  } catch (_) {}
+  state.energy = Math.min(maxE, state.energy + 55 + (state.upgrades.power || 0) * 20);
+  return true;
+}`,
+
+      "scripts/modules/ai_brain.js": `import { world } from "@minecraft/server";
+import { POSE, EYE, TOOL_VIS } from "./constants.js";
+import { saveState } from "./persistence.js";
+import { getMaxEnergy, consumeEnergy, isLowEnergy, tickSelfRepair } from "./energy_condition.js";
+import { syncEquipmentVisuals } from "./equipment.js";
+import { collectNearbyDrops, depositToDesignatedChest, getInventorySummary } from "./inventory.js";
+import { dist3, stepNavigateTowards, isBlockSafeToStand } from "./navigation.js";
+import { scanAndEngageHostiles, executeMiningTask, executeForestryTask, executeFarmingTask, executeFishingTask } from "./tasks.js";
+import { executeChargingRoutine, findNearestDock } from "./charging.js";
+
+const lowWarnCooldown = new Map();
+export const ownerRecentActivity = new Map();
+
+export function tickAgentBrain(agent, state, currentTick) {
+  if (!agent || !agent.isValid()) return;
+  const owner = state.ownerId ? world.getAllPlayers().find(p => p.id === state.ownerId) : null;
+  const maxE = getMaxEnergy(state);
+  tickSelfRepair(state);
+  const pct = Math.round((state.energy / maxE) * 100);
+  const eColor = pct <= 18 ? "§c" : (pct <= 45 ? "§e" : "§a");
+  agent.nameTag = "§b" + state.name + " §7[" + state.command + "] " + eColor + "⚡" + pct + "%";
+
+  if (state.energy <= 0 && state.command !== "CHARGE") {
+    try { agent.triggerEvent("pa:set_stay"); agent.setProperty("pa:pose", POSE.STAY); agent.setProperty("pa:eye_state", EYE.SLEEP); } catch (_) {}
+    if (findNearestDock(agent, state, 2)) state.command = "CHARGE";
+    saveState(agent, state); return;
+  }
+  if (state.condition > 15 && state.energy > 35 && state.command !== "STAY" && state.command !== "CHARGE") {
+    if (scanAndEngageHostiles(agent, state, owner)) {
+      try { agent.setProperty("pa:eye_state", isLowEnergy(state) ? EYE.LOW_BATTERY : EYE.NORMAL); } catch (_) {}
+      saveState(agent, state); return;
+    }
+  }
+  if (isLowEnergy(state) && state.command !== "CHARGE" && state.command !== "STAY") {
+    const lastWarn = lowWarnCooldown.get(agent.id) || 0;
+    if (currentTick - lastWarn > 400) {
+      lowWarnCooldown.set(agent.id, currentTick);
+      if (owner && owner.isValid()) owner.sendMessage("§e[AI Robot] §f" + state.name + " แบตเตอรี่ต่ำ (" + pct + "%)! กำลังกลับแท่นชาร์จ");
+      try { if (state.settings.soundEnabled) agent.dimension.playSound("pa.agent.low_battery", agent.location); } catch (_) {}
+    }
+    if (findNearestDock(agent, state, 18)) { state.resumedCommand = state.command; state.command = "CHARGE"; }
+    else { try { agent.triggerEvent("pa:speed_tired"); agent.setProperty("pa:eye_state", EYE.LOW_BATTERY); } catch (_) {} }
+  }
+  if (state.command === "CHARGE" && executeChargingRoutine(agent, state, owner)) { saveState(agent, state); return; }
+
+  try {
+    agent.setProperty("pa:eye_state", isLowEnergy(state) ? EYE.LOW_BATTERY : EYE.NORMAL);
+    if (state.command !== "STAY") {
+      if (isLowEnergy(state)) agent.triggerEvent("pa:speed_tired");
+      else if ((state.upgrades.mobility || 0) > 0) agent.triggerEvent("pa:speed_upgraded");
+      else agent.triggerEvent("pa:speed_normal");
+    }
+  } catch (_) {}
+
+  if (state.command === "STAY") {
+    try { agent.triggerEvent("pa:set_stay"); agent.setProperty("pa:pose", POSE.STAY); agent.setProperty("pa:eye_state", EYE.SLEEP); } catch (_) {}
+    syncEquipmentVisuals(agent, state, TOOL_VIS.NONE); saveState(agent, state); return;
+  }
+  if (state.command === "RETURN" && owner && owner.isValid() && owner.dimension.id === agent.dimension.id) {
+    if (dist3(agent.location, owner.location) > 2.8) { stepNavigateTowards(agent, owner.location, true); consumeEnergy(state, 1.0); }
+    else state.command = "FOLLOW";
+    saveState(agent, state); return;
+  }
+  if (owner && owner.isValid() && owner.dimension.id === agent.dimension.id && (state.command === "FOLLOW" || state.command === "ASSIST" || state.command === "DEFEND")) {
+    const od = dist3(agent.location, owner.location);
+    if (od > 22 && isBlockSafeToStand(owner.dimension, owner.location)) {
+      try { agent.teleport({ x: owner.location.x + 1.2, y: owner.location.y + 0.2, z: owner.location.z + 1.2 }); } catch (_) {}
+    } else if (od > 9.5) {
+      try { agent.triggerEvent("pa:set_follow"); agent.setProperty("pa:pose", POSE.IDLE); } catch (_) {}
+      stepNavigateTowards(agent, owner.location, true); consumeEnergy(state, 1.0); saveState(agent, state); return;
+    }
+  }
+  const invSum = getInventorySummary(agent, state);
+  if (invSum.isFull && state.settings.autoChestDeposit && state.chestPos && state.chestPos.dim === agent.dimension.id) {
+    if (dist3(agent.location, state.chestPos) > 3.0) { stepNavigateTowards(agent, state.chestPos, false); saveState(agent, state); return; }
+    depositToDesignatedChest(agent, state);
+  }
+  if (state.command === "WORK" && !isLowEnergy(state) && state.condition > 10) {
+    try { agent.triggerEvent("pa:set_task_nav"); } catch (_) {}
+    let worked = false;
+    if (state.workType === "MINING") worked = executeMiningTask(agent, state, owner, false);
+    else if (state.workType === "FORESTRY") worked = executeForestryTask(agent, state, owner);
+    else if (state.workType === "FARMING") worked = executeFarmingTask(agent, state, owner);
+    else if (state.workType === "FISHING") worked = executeFishingTask(agent, state, owner);
+    if (!worked) { try { agent.setProperty("pa:pose", POSE.IDLE); } catch (_) {} syncEquipmentVisuals(agent, state, null); }
+    collectNearbyDrops(agent, state, 5.0); saveState(agent, state); return;
+  }
+  if (state.command === "ASSIST" && owner && owner.isValid() && !isLowEnergy(state) && state.condition > 10) {
+    const rec = ownerRecentActivity.get(owner.id);
+    let assisted = false;
+    if (rec && currentTick - rec.tick < 200) {
+      if (rec.type === "MINING") assisted = executeMiningTask(agent, state, owner, true);
+      else if (rec.type === "FORESTRY") assisted = executeForestryTask(agent, state, owner);
+      else if (rec.type === "FARMING") assisted = executeFarmingTask(agent, state, owner);
+    }
+    if (!assisted) assisted = executeFarmingTask(agent, state, owner) || executeMiningTask(agent, state, owner, true);
+    if (assisted) { saveState(agent, state); return; }
+  }
+  try { agent.triggerEvent("pa:set_follow"); } catch (_) {}
+  if (!invSum.isFull && collectNearbyDrops(agent, state, 4.2)) { try { agent.setProperty("pa:pose", POSE.COLLECT); } catch (_) {} consumeEnergy(state, 0.5); }
+  else { try { agent.setProperty("pa:pose", POSE.IDLE); } catch (_) {} syncEquipmentVisuals(agent, state, null); consumeEnergy(state, 0.25); }
+  saveState(agent, state);
+}`,
+
+      "scripts/modules/ui_menus.js": `import { ActionFormData, ModalFormData } from "@minecraft/server-ui";
+import { saveState } from "./persistence.js";
+import { getMaxEnergy, getUnlockedSlots, makeBar } from "./energy_condition.js";
+import { classifyTool, isArmorItem, syncEquipmentVisuals } from "./equipment.js";
+import { getInventorySummary, insertIntoAgentInventory, depositToDesignatedChest } from "./inventory.js";
+import { UPGRADE_ITEMS } from "./constants.js";
+
+const tempPointA = new Map();
+
+export function openMainMenu(player, agent, state) {
+  const maxE = getMaxEnergy(state);
+  const invSum = getInventorySummary(agent, state);
+  const dockStr = state.dockPos ? (state.dockPos.x + "," + state.dockPos.y + "," + state.dockPos.z) : "ยังไม่ผูกแท่นชาร์จ";
+  const body = [
+    "§b🤖 หุ่นยนต์: §f" + state.name + " §7(ออนไลน์)",
+    "§f⚡ พลังงาน: " + makeBar(state.energy, maxE) + " §7(" + Math.round(state.energy) + "/" + maxE + ")",
+    "§f🔧 สภาพเครื่อง: " + makeBar(state.condition, state.maxCondition),
+    "§f📌 คำสั่ง: §a" + state.command + " §7| งาน: §e" + state.workType,
+    "§f🎒 ช่องเก็บของ: §f" + invSum.used + "/" + invSum.limit + " §7| แท่นชาร์จ: §b" + dockStr
+  ].join("\\n");
+
+  new ActionFormData()
+    .title("§l§0🤖 " + state.name + " — รีโมทควบคุม")
+    .body(body)
+    .button("🟢 FOLLOW / ASSIST\\n§8เดินตาม & ช่วยงานอัตโนมัติ", "textures/items/agent_remote")
+    .button("🛑 STAY (นั่งรอ)\\n§8หยุดอยู่กับที่และพักพลังงาน", "textures/blocks/charging_station_top")
+    .button("⛏️ WORK MODE\\n§8สั่งทำงานอัตโนมัติตามสายงาน", "textures/items/ai_core")
+    .button("⚔️ DEFEND / RETURN\\n§8คุ้มกันเจ้าของ & เรียกกลับมาหา", "textures/items/upgrade_defense")
+    .button("⚡ CHARGE NOW\\n§8สั่งเดินกลับไปชาร์จที่แท่นทันที", "textures/items/battery_cell")
+    .button("🎒 INVENTORY & CHEST\\n§8ฝาก-ถอนของ / กรองไอเทม", "textures/items/upgrade_storage")
+    .button("🛠️ EQUIPMENT & REPAIR\\n§8ติดตั้งเครื่องมือ เกราะ แบต & ซ่อม", "textures/items/repair_kit")
+    .button("🚀 UPGRADES (อัปเกรด)\\n§8ติดตั้งชิปอัปเกรดความสามารถ", "textures/items/upgrade_processor")
+    .button("📍 WORK AREA (เขตงาน)\\n§8ตั้งจุด A / B และโปรไฟล์พื้นที่", "textures/items/upgrade_mobility")
+    .button("⚙️ SETTINGS & STATS\\n§8ตั้งค่าระบบ & ดูสถิติการทำงาน", "textures/items/upgrade_efficiency")
+    .show(player).then(res => {
+      if (res.canceled) return;
+      if (res.selection === 0) { state.command = state.command === "ASSIST" ? "FOLLOW" : "ASSIST"; saveState(agent, state); player.sendMessage("§a[AI Remote] โหมดปัจจุบัน: " + state.command); }
+      else if (res.selection === 1) { state.command = "STAY"; saveState(agent, state); player.sendMessage("§e[AI Remote] สั่งนั่งรอ (STAY)"); }
+      else if (res.selection === 2) openWorkMenu(player, agent, state);
+      else if (res.selection === 3) { state.command = state.command === "DEFEND" ? "RETURN" : "DEFEND"; saveState(agent, state); player.sendMessage("§a[AI Remote] คำสั่งด่วน: " + state.command); }
+      else if (res.selection === 4) { state.command = "CHARGE"; saveState(agent, state); player.sendMessage("§b[AI Remote] กำลังกลับแท่นชาร์จ!"); }
+      else if (res.selection === 5) openInvMenu(player, agent, state);
+      else if (res.selection === 6) openEquipMenu(player, agent, state);
+      else if (res.selection === 7) openUpgMenu(player, agent, state);
+      else if (res.selection === 8) openAreaMenu(player, agent, state);
+      else if (res.selection === 9) openSettingsMenu(player, agent, state);
+    });
+}
+function openWorkMenu(player, agent, state) {
+  new ActionFormData().title("⛏️ เลือกสายงานอัตโนมัติ")
+    .button("⛏️ MINING (ขุดแร่ & หิน)").button("🪓 FORESTRY (ตัดไม้ & ปลูกคืน)")
+    .button("🌾 FARMING (เก็บเกี่ยวพืชโตเต็มวัย)").button("🎣 FISHING (ตกปลาริมน้ำ)")
+    .show(player).then(r => {
+      if (r.canceled) return;
+      state.workType = ["MINING", "FORESTRY", "FARMING", "FISHING"][r.selection];
+      state.command = "WORK"; saveState(agent, state);
+      player.sendMessage("§a[AI Remote] เริ่มงาน " + state.workType + "!");
+    });
+}
+function openInvMenu(player, agent, state) {
+  const invSum = getInventorySummary(agent, state);
+  const txt = invSum.items.length ? invSum.items.map(e => "• " + e.typeId.replace("minecraft:", "") + " x" + e.amount).join("\\n") : "(ว่างเปล่า)";
+  new ActionFormData().title("🎒 ช่องเก็บของ (" + invSum.used + "/" + invSum.limit + ")").body(txt)
+    .button("📥 ฝากไอเทมในมือเข้าหุ่นยนต์").button("📤 ถอนไอเทมทั้งหมด (ยกเว้นเครื่องมือ)").button("🚚 ส่งของเข้า Chest ที่ผูกไว้")
+    .show(player).then(r => {
+      if (r.canceled) return;
+      const pInv = player.getComponent("minecraft:inventory")?.container;
+      const aInv = agent.getComponent("minecraft:inventory")?.container;
+      if (r.selection === 0 && pInv) {
+        const held = pInv.getItem(player.selectedSlotIndex);
+        if (!held || held.typeId === "pa:agent_remote") return player.sendMessage("§eกรุณาถือไอเทมที่จะฝากไว้ในมือครับ");
+        pInv.setItem(player.selectedSlotIndex, insertIntoAgentInventory(agent, state, held) || undefined);
+        syncEquipmentVisuals(agent, state, null); player.sendMessage("§aฝากไอเทมเรียบร้อย!");
+      } else if (r.selection === 1 && pInv && aInv) {
+        for (const e of invSum.items) { if (!classifyTool(e.typeId)) aInv.setItem(e.slot, pInv.addItem(e.item) || undefined); }
+        player.sendMessage("§aถอนไอเทมเข้าตัวผู้เล่นแล้ว!");
+      } else if (r.selection === 2) {
+        const m = depositToDesignatedChest(agent, state);
+        player.sendMessage("§aย้ายไอเทมเข้ากล่องแล้ว " + m + " กอง");
+      }
+    });
+}
+function openEquipMenu(player, agent, state) {
+  new ActionFormData().title("🛠️ อุปกรณ์ แบตเตอรี่ & ซ่อมบำรุง")
+    .button("➕ ติดตั้งเครื่องมือ/เกราะ/โล่ จากในมือ")
+    .button("🔋 เติมไฟด้วย Battery Cell ในกระเป๋า")
+    .button("🔧 ซ่อมหุ่นด้วย Repair Kit หรือ Iron Ingot")
+    .show(player).then(r => {
+      if (r.canceled) return;
+      const pInv = player.getComponent("minecraft:inventory")?.container;
+      if (!pInv) return;
+      if (r.selection === 0) {
+        const held = pInv.getItem(player.selectedSlotIndex);
+        if (!held) return player.sendMessage("§eถือเครื่องมือหรือเกราะในมือก่อนครับ");
+        if (isArmorItem(held.typeId)) { state.equipment.armor = { id: held.typeId }; pInv.setItem(player.selectedSlotIndex, undefined); }
+        else if (held.typeId === "minecraft:shield") { state.equipment.shield = { id: held.typeId }; pInv.setItem(player.selectedSlotIndex, undefined); }
+        else pInv.setItem(player.selectedSlotIndex, insertIntoAgentInventory(agent, state, held) || undefined);
+        saveState(agent, state); syncEquipmentVisuals(agent, state, null);
+        player.sendMessage("§aติดตั้งอุปกรณ์สำเร็จ!");
+      } else if (r.selection === 1) {
+        for (let i = 0; i < pInv.size; i++) {
+          const it = pInv.getItem(i);
+          if (it && (it.typeId === "pa:battery_cell" || it.typeId === "pa:power_cell_plus")) {
+            state.energy = Math.min(getMaxEnergy(state), state.energy + (it.typeId === "pa:power_cell_plus" ? 900 : 450));
+            if (it.amount > 1) { it.amount--; pInv.setItem(i, it); } else pInv.setItem(i, undefined);
+            saveState(agent, state); return player.sendMessage("§aเติมพลังงานเรียบร้อย!");
+          }
+        }
+        player.sendMessage("§cไม่พบ Battery Cell ในกระเป๋า");
+      } else if (r.selection === 2) {
+        for (let i = 0; i < pInv.size; i++) {
+          const it = pInv.getItem(i);
+          if (it && (it.typeId === "pa:repair_kit" || it.typeId === "minecraft:iron_ingot")) {
+            state.condition = Math.min(state.maxCondition, state.condition + (it.typeId === "pa:repair_kit" ? 50 : 20));
+            agent.getComponent("minecraft:health")?.resetToMaxValue();
+            if (it.amount > 1) { it.amount--; pInv.setItem(i, it); } else pInv.setItem(i, undefined);
+            saveState(agent, state); return player.sendMessage("§aซ่อมบำรุงหุ่นยนต์เรียบร้อย!");
+          }
+        }
+        player.sendMessage("§cต้องมี Repair Kit หรือ Iron Ingot ในกระเป๋า");
+      }
+    });
+}
+function openUpgMenu(player, agent, state) {
+  const u = state.upgrades;
+  new ActionFormData().title("🚀 อัปเกรดโมดูล")
+    .body("Storage:" + u.storage + "/3 | Power:" + u.power + "/3 | Eff:" + u.efficiency + "/3 | Proc:" + u.processor + "/3 | Def:" + u.defense + "/3 | Mob:" + u.mobility + "/2 | Rep:" + u.repair + "/2")
+    .button("✨ ติดตั้งชิป Upgrade Module จากกระเป๋า")
+    .show(player).then(r => {
+      if (r.canceled) return;
+      const pInv = player.getComponent("minecraft:inventory")?.container;
+      const caps = { storage: 3, power: 3, efficiency: 3, processor: 3, defense: 3, mobility: 2, repair: 2 };
+      for (let i = 0; i < pInv.size; i++) {
+        const it = pInv.getItem(i);
+        const key = it ? UPGRADE_ITEMS[it.typeId] : null;
+        if (key && (u[key] || 0) < caps[key]) {
+          u[key] = (u[key] || 0) + 1;
+          if (it.amount > 1) { it.amount--; pInv.setItem(i, it); } else pInv.setItem(i, undefined);
+          saveState(agent, state); syncEquipmentVisuals(agent, state, null);
+          return player.sendMessage("§aอัปเกรด " + key.toUpperCase() + " ระดับ " + u[key] + " สำเร็จ!");
+        }
+      }
+      player.sendMessage("§eไม่พบชิป Upgrade Module ที่อัปเกรดเพิ่มได้ในกระเป๋า");
+    });
+}
+function openAreaMenu(player, agent, state) {
+  new ActionFormData().title("📍 เขตพื้นที่ทำงาน Point A / B")
+    .button("📍 ตั้ง Point A ที่ตำแหน่งผู้เล่น").button("🏁 ตั้ง Point B & บันทึกเขตงาน").button("🌐 ยกเลิกการจำกัดเขต")
+    .show(player).then(r => {
+      if (r.canceled) return;
+      const pos = { x: Math.floor(player.location.x), y: Math.floor(player.location.y) - 1, z: Math.floor(player.location.z) };
+      if (r.selection === 0) { tempPointA.set(player.id, { pos, dim: player.dimension.id }); player.sendMessage("§bตั้งจุด Point A แล้ว!"); }
+      else if (r.selection === 1) {
+        const pA = tempPointA.get(player.id);
+        if (!pA || pA.dim !== player.dimension.id) return player.sendMessage("§cกรุณาตั้ง Point A ก่อนครับ");
+        state.workAreas.push({ name: "Zone-" + (state.workAreas.length + 1), a: { x: pA.pos.x, y: pA.pos.y - 2, z: pA.pos.z }, b: { x: pos.x, y: pos.y + 6, z: pos.z }, dim: player.dimension.id });
+        state.activeAreaIdx = state.workAreas.length - 1; saveState(agent, state);
+        player.sendMessage("§aบันทึกเขตงานเรียบร้อย!");
+      } else { state.activeAreaIdx = -1; saveState(agent, state); player.sendMessage("§aปลดล็อกเป็นโหมดทำงานรอบตัวอิสระ"); }
+    });
+}
+function openSettingsMenu(player, agent, state) {
+  new ModalFormData().title("⚙️ ตั้งค่าหุ่นยนต์")
+    .textField("ชื่อหุ่นยนต์", "ROBO-01", state.name)
+    .toggle("เปิดเสียงหุ่นยนต์", state.settings.soundEnabled)
+    .slider("ระยะทำงาน (บล็อก)", 6, 20, 2, state.settings.workDistance)
+    .toggle("Vein Mining (ขุดสายแร่)", state.settings.veinMining)
+    .toggle("Auto Replant (ปลูกพืช/ต้นกล้าคืน)", state.settings.autoReplant)
+    .show(player).then(r => {
+      if (r.canceled) return;
+      if (String(r.formValues[0]).trim()) state.name = String(r.formValues[0]).trim().slice(0, 18);
+      state.settings.soundEnabled = Boolean(r.formValues[1]);
+      state.settings.workDistance = Number(r.formValues[2]);
+      state.settings.veinMining = Boolean(r.formValues[3]);
+      state.settings.autoReplant = Boolean(r.formValues[4]);
+      saveState(agent, state); player.sendMessage("§aบันทึกการตั้งค่าแล้ว!");
+    });
+}`,
+
+      "scripts/main.js": `import { world, system, ItemStack } from "@minecraft/server";
+import { AGENT_TYPE, DOCK_BLOCK, REMOTE_ITEM, ROBOT_UNIT_ITEM, ORE_AND_STONE_BLOCKS, LOG_TO_SAPLING, CROP_DEFS } from "./modules/constants.js";
+import { getState, saveState, createDefaultState, dropCache } from "./modules/persistence.js";
+import { tickAgentBrain, ownerRecentActivity } from "./modules/ai_brain.js";
+import { openMainMenu } from "./modules/ui_menus.js";
+import { insertIntoAgentInventory } from "./modules/inventory.js";
+import { isArmorItem, syncEquipmentVisuals } from "./modules/equipment.js";
+
+function findOwnedAgents(player) {
+  const owned = [];
+  for (const dId of ["minecraft:overworld", "minecraft:nether", "minecraft:the_end"]) {
+    try {
+      for (const ent of world.getDimension(dId).getEntities({ type: AGENT_TYPE })) {
+        const st = getState(ent);
+        if (st && st.ownerId === player.id) owned.push({ ent, st });
+      }
+    } catch (_) {}
+  }
+  return owned;
+}
+
+world.afterEvents.itemUseOn.subscribe(ev => {
+  const { source: player, itemStack, block } = ev;
+  if (!player || !itemStack) return;
+  if (itemStack.typeId === ROBOT_UNIT_ITEM) {
+    system.run(() => {
+      const spawnPos = { x: block.location.x + 0.5, y: block.location.y + 1.05, z: block.location.z + 0.5 };
+      const agent = block.dimension.spawnEntity(AGENT_TYPE, spawnPos);
+      agent.triggerEvent("pa:on_tame");
+      const st = createDefaultState(player.id, player.name);
+      saveState(agent, st); syncEquipmentVisuals(agent, st, null);
+      const inv = player.getComponent("minecraft:inventory")?.container;
+      if (inv) {
+        if (inv.getItem(player.selectedSlotIndex)?.typeId === ROBOT_UNIT_ITEM) inv.setItem(player.selectedSlotIndex, undefined);
+        let hasRemote = false;
+        for (let i = 0; i < inv.size; i++) if (inv.getItem(i)?.typeId === REMOTE_ITEM) hasRemote = true;
+        if (!hasRemote) inv.addItem(new ItemStack(REMOTE_ITEM, 1));
+      }
+      try { block.dimension.playSound("pa.agent.happy", spawnPos); } catch (_) {}
+      player.sendMessage("§a[AI Robot] ประกอบหุ่นยนต์สำเร็จ! ถือรีโมทแตะค้างหน้าจอเพื่อสั่งงานได้เลย!");
+    });
+    return;
+  }
+  if (itemStack.typeId === REMOTE_ITEM && player.isSneaking) {
+    system.run(() => {
+      const owned = findOwnedAgents(player);
+      if (!owned.length) return player.sendMessage("§cคุณยังไม่มีหุ่นยนต์ในความดูแล");
+      const { ent, st } = owned[0];
+      if (block.typeId === DOCK_BLOCK) {
+        st.dockPos = { x: block.location.x, y: block.location.y, z: block.location.z, dim: block.dimension.id };
+        saveState(ent, st); player.sendMessage("§aผูกแท่นชาร์จพลังงานสำเร็จ!");
+      } else if (block.typeId.includes("chest") || block.typeId === "minecraft:barrel") {
+        st.chestPos = { x: block.location.x, y: block.location.y, z: block.location.z, dim: block.dimension.id };
+        saveState(ent, st); player.sendMessage("§aผูกกล่องฝากของอัตโนมัติสำเร็จ!");
+      }
+    });
+  }
+});
+
+world.afterEvents.entitySpawn.subscribe(ev => {
+  const ent = ev.entity;
+  if (!ent || !ent.isValid() || ent.typeId !== AGENT_TYPE) return;
+  system.runTimeout(() => {
+    if (!ent.isValid()) return;
+    const st = getState(ent);
+    if (!st.ownerId) {
+      const p = ent.dimension.getPlayers({ location: ent.location, maxDistance: 10 })[0];
+      if (p) {
+        st.ownerId = p.id; st.ownerName = p.name; ent.triggerEvent("pa:on_tame");
+        saveState(ent, st); syncEquipmentVisuals(ent, st, null);
+        const inv = p.getComponent("minecraft:inventory")?.container;
+        if (inv) {
+          let hasRemote = false;
+          for (let i = 0; i < inv.size; i++) if (inv.getItem(i)?.typeId === REMOTE_ITEM) hasRemote = true;
+          if (!hasRemote) inv.addItem(new ItemStack(REMOTE_ITEM, 1));
+        }
+        p.sendMessage("§a[AI Robot] เชื่อมต่อหุ่นยนต์และมอบรีโมทควบคุมให้แล้ว!");
+      }
+    }
+  }, 3);
+});
+
+world.afterEvents.itemUse.subscribe(ev => {
+  const { source: player, itemStack } = ev;
+  if (!player || !itemStack || itemStack.typeId !== REMOTE_ITEM || player.isSneaking) return;
+  system.run(() => {
+    const owned = findOwnedAgents(player);
+    if (!owned.length) return player.sendMessage("§eไม่พบหุ่นยนต์ของคุณในพื้นที่ที่โหลดอยู่");
+    openMainMenu(player, owned[0].ent, owned[0].st);
+  });
+});
+
+world.beforeEvents.playerInteractWithEntity.subscribe(ev => {
+  const { player, target, itemStack } = ev;
+  if (!target || target.typeId !== AGENT_TYPE) return;
+  ev.cancel = true;
+  system.run(() => {
+    if (!target.isValid() || !player.isValid()) return;
+    const state = getState(target);
+    if (!state.ownerId) {
+      state.ownerId = player.id; state.ownerName = player.name; target.triggerEvent("pa:on_tame");
+      saveState(target, state); return openMainMenu(player, target, state);
+    }
+    if (state.ownerId !== player.id) return player.sendMessage("§c[AI Security] หุ่นยนต์เครื่องนี้เป็นของ " + state.ownerName);
+    if (player.isSneaking && itemStack && itemStack.typeId !== REMOTE_ITEM) {
+      const pInv = player.getComponent("minecraft:inventory")?.container;
+      if (pInv) {
+        if (isArmorItem(itemStack.typeId)) { state.equipment.armor = { id: itemStack.typeId }; pInv.setItem(player.selectedSlotIndex, undefined); }
+        else pInv.setItem(player.selectedSlotIndex, insertIntoAgentInventory(target, state, itemStack) || undefined);
+        saveState(target, state); syncEquipmentVisuals(target, state, null);
+        return player.sendMessage("§aส่งมอบอุปกรณ์ให้หุ่นยนต์แล้ว!");
+      }
+    }
+    openMainMenu(player, target, state);
+  });
+});
+
+world.afterEvents.playerBreakBlock.subscribe(ev => {
+  const id = ev.brokenBlockPermutation?.type?.id;
+  if (!ev.player || !id) return;
+  if (ORE_AND_STONE_BLOCKS.has(id)) ownerRecentActivity.set(ev.player.id, { type: "MINING", tick: system.currentTick });
+  else if (LOG_TO_SAPLING[id]) ownerRecentActivity.set(ev.player.id, { type: "FORESTRY", tick: system.currentTick });
+  else if (CROP_DEFS[id]) ownerRecentActivity.set(ev.player.id, { type: "FARMING", tick: system.currentTick });
+});
+
+world.afterEvents.entityHurt.subscribe(ev => {
+  const ent = ev.hurtEntity;
+  if (!ent || !ent.isValid() || ent.typeId !== AGENT_TYPE) return;
+  const st = getState(ent);
+  if (st) {
+    st.condition = Math.max(0, +(st.condition - Math.min(8, ev.damage * 1.2)).toFixed(1));
+    saveState(ent, st);
+    try { if (st.settings.soundEnabled) ent.dimension.playSound("pa.agent.hurt", ent.location); } catch (_) {}
+  }
+});
+
+world.afterEvents.entityRemove.subscribe(ev => dropCache(ev.removedEntityId));
+
+system.runInterval(() => {
+  const tick = system.currentTick;
+  for (const dId of ["minecraft:overworld", "minecraft:nether", "minecraft:the_end"]) {
+    try {
+      for (const agent of world.getDimension(dId).getEntities({ type: AGENT_TYPE })) {
+        if (agent.isValid()) { const st = getState(agent); if (st) tickAgentBrain(agent, st, tick); }
+      }
+    } catch (_) {}
+  }
+}, 10);`
+    };
+
+    // Build immediately on load & render manifest summary
+    const statusEl = document.getElementById("build-status");
+    const tbody = document.getElementById("manifest-summary-body");
+
+    try {
+      const built = assembleFullAddon();
+      cachedAddonBlob = built.blob;
+      const kb = (cachedAddonBlob.size / 1024).toFixed(1);
+      statusEl.textContent = `✅ แพ็กเกจพร้อมดาวน์โหลดแล้ว! รวมทั้งหมด ${built.entries.length} ไฟล์ ในไฟล์เดียว (${kb} KB)`;
+
+      const groups = [
+        ["3D Geometry, Animations & Render Controllers", built.entries.filter(e => e.path.includes("/models/") || e.path.includes("/animations/") || e.path.includes("controllers")).length],
+        ["Pixel Art Textures (5 Eye Expressions, 13 Items, 3 Dock Faces, Icons)", built.entries.filter(e => e.path.endsWith(".png")).length],
+        ["Custom Synth Audio (.wav) & Sound Definitions", built.entries.filter(e => e.path.includes("/sounds/")).length],
+        ["Behavior Entity, Charging Station Block, 13 Items & 14 Survival Recipes", built.entries.filter(e => e.path.startsWith("Personal_AI_Agent_BP/") && e.path.endsWith(".json")).length],
+        ["Modular Script API Engine (@minecraft/server + @minecraft/server-ui)", built.entries.filter(e => e.path.endsWith(".js")).length],
+        ["Localization (ภาษาไทย th_TH & English en_US) + Atlas JSONs", built.entries.filter(e => e.path.includes("/texts/") || e.path.includes("texture.json") || e.path.endsWith("blocks.json") || e.path.endsWith("RP/manifest.json") || e.path.includes("RP/entity/")).length]
+      ];
+      tbody.innerHTML = groups.map(([label, count]) =>
+        `<tr><td>${label}</td><td><code>Personal_AI_Agent_BP</code> / <code>Personal_AI_Agent_RP</code></td><td class="num">${count}</td></tr>`
+      ).join("");
+    } catch (err) {
+      statusEl.textContent = "เกิดข้อผิดพลาดในการสร้างแพ็กเกจ: " + err.message;
+    }
+
+    function triggerDownload(filename) {
+      if (!cachedAddonBlob) return;
+      const url = URL.createObjectURL(cachedAddonBlob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(url), 5000);
+      statusEl.textContent = `⬇️ สั่งดาวน์โหลดไฟล์ ${filename} เรียบร้อย! (หากพรีวิวบล็อกการเซฟไฟล์ ให้กดปุ่มไอคอน Download มุมขวาบนของกรอบแอปเพื่อรันไฟล์นอกพรีวิว)`;
+    }
+
+    document.getElementById("btn-download-mcaddon").addEventListener("click", () => triggerDownload("Personal_AI_Agent.mcaddon"));
+    document.getElementById("btn-download-zip").addEventListener("click", () => triggerDownload("Personal_AI_Agent_Source.zip"));
+  })();
+  </script>
+</body>
+</html>
